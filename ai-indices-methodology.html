@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 应用生态三大指数体系 — 编制原理</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card-bg: #1a1d27;
+      --card-border: #2a2d3a;
+      --text-primary: #e8eaf0;
+      --text-secondary: #8b8fa3;
+      --text-muted: #5c6070;
+      --accent-admi: #7c6fe0;
+      --accent-eapi: #e07b4c;
+      --accent-aadi: #3db8a2;
+      --accent-admi-light: #a599f5;
+      --accent-eapi-light: #f5a882;
+      --accent-aadi-light: #6fd4c8;
+      --surface-admi: rgba(124, 111, 224, 0.08);
+      --surface-eapi: rgba(224, 123, 76, 0.08);
+      --surface-aadi: rgba(61, 184, 162, 0.08);
+      --border-radius: 12px;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .page-header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .page-header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .page-header .subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-admi), var(--accent-eapi), var(--accent-aadi));
+      border-radius: 2px;
+      margin: 32px auto 0;
+    }
+
+    .index-nav {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+    }
+    .index-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 1px solid;
+    }
+    .index-nav a.admi { color: var(--accent-admi); border-color: var(--accent-admi); background: var(--surface-admi); }
+    .index-nav a.eapi { color: var(--accent-eapi); border-color: var(--accent-eapi); background: var(--surface-eapi); }
+    .index-nav a.aadi { color: var(--accent-aadi); border-color: var(--accent-aadi); background: var(--surface-aadi); }
+    .index-nav a:hover { opacity: 0.8; }
+
+    .index-section {
+      margin-bottom: 80px;
+      scroll-margin-top: 80px;
+    }
+    .index-section .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .index-section.admi  .section-tag { color: var(--accent-admi);  background: var(--surface-admi);  border: 1px solid rgba(124,111,224,0.25); }
+    .index-section.eapi  .section-tag { color: var(--accent-eapi);  background: var(--surface-eapi);  border: 1px solid rgba(224,123,76,0.25); }
+    .index-section.aadi  .section-tag { color: var(--accent-aadi);  background: var(--surface-aadi);  border: 1px solid rgba(61,184,162,0.25); }
+
+    .index-section h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .index-section .index-fullname {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+    }
+    .index-section .lead {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      max-width: 720px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-card .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .stat-card .value {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .stat-card .sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .formula-block {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      overflow-x: auto;
+    }
+    .formula-block .formula-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .formula-block pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .formula-block .comment { color: var(--text-muted); }
+
+    .packages-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      font-size: 14px;
+    }
+    .packages-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .packages-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(42,45,58,0.6);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .packages-table tr:last-child td { border-bottom: none; }
+    .packages-table .pkg-name { color: var(--text-primary); font-weight: 600; }
+    .packages-table .pkg-source { color: var(--text-muted); }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    .summary-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+      background: var(--card-bg);
+    }
+    .summary-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(42,45,58,0.6);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    .summary-table td:first-child { color: var(--text-primary); font-weight: 600; }
+    .summary-table tr:last-child td { border-bottom: none; }
+
+    .page-footer {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid var(--card-border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="page-header">
+    <div class="eyebrow">TransformerFacts Research</div>
+    <h1>AI 应用生态三大指数体系</h1>
+    <p class="subtitle">
+      ADMI、EAPI、AADI 分别从开发者活跃度、企业渗透度、应用落地强度
+      三个维度追踪 AI 产业演进，为 AI 投资与研究提供可量化的结构性指标。
+    </p>
+    <div class="divider"></div>
+  </header>
+
+  <nav class="index-nav">
+    <a href="#admi" class="admi">● ADMI</a>
+    <a href="#eapi" class="eapi">● EAPI</a>
+    <a href="#aadi" class="aadi">● AADI</a>
+    <a href="#summary">● 对比总览</a>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       ADMI
+  ══════════════════════════════════════ -->
+  <section class="index-section admi" id="admi">
+    <div class="section-tag">● AI 开发者活跃度</div>
+    <h2>ADMI</h2>
+    <div class="index-fullname">AI Developer Momentum Index</div>
+    <p class="lead">
+      ADMI 从开源生态的核心参与者视角出发，通过 GitHub Star、GitHub Fork
+      和 HuggingFace 下载量三类指标，加权合成开发者对 AI 项目的关注度与参与度变化趋势。
+      衡量的是 AI 模型与工具在开发者社区中的传播速度与参与热情。
+    </p>
+
+    <div class="cards-grid">
+      <div class="stat-card">
+        <div class="label">权重方案</div>
+        <div class="value">0.35 / 0.35 / 0.30</div>
+        <div class="sub">Star / Fork / HF 下载</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">基点</div>
+        <div class="value">100</div>
+        <div class="sub">2026-03-02 为基准周</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">数据频率</div>
+        <div class="value">周度</div>
+        <div class="sub">每周一快照</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">存储位置</div>
+        <div class="value">growth_metrics</div>
+        <div class="sub">metric_name=ADMI</div>
+      </div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-title">编制公式</div>
+<pre><span class="comment"># Step 1：计算三项增长率（7天滚动环比）</span>
+star_rate  = github_star[t] / github_star[t-7d] − 1
+fork_rate = github_fork[t] / github_fork[t-7d] − 1
+hf_rate   = hf_downloads[t] / hf_downloads[t-7d] − 1
+
+<span class="comment"># Step 2：加权聚合</span>
+composite_growth = 0.35 × star_rate
+                + 0.35 × fork_rate
+                + 0.30 × hf_rate
+
+<span class="comment"># Step 3：基点复利累积</span>
+ADMI[t] = ADMI[t-1] × (1 + composite_growth)
+
+<span class="comment"># 等价形式（以基准周为锚）</span>
+ADMI[t] = 100 × Π (1 + growth_i)^w_i    <span class="comment">← 几何加权复利模型</span></pre>
+    </div>
+
+    <table class="packages-table">
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>说明</th>
+          <th>权重</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pkg-name">github_all_star_growth_rate_7d</td>
+          <td>全网 GitHub 项目 Star 增长率</td>
+          <td>35%</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">github_all_fork_growth_rate_7d</td>
+          <td>全网 GitHub 项目 Fork 增长率</td>
+          <td>35%</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">huggingface_all_downloads_growth_rate_7d</td>
+          <td>HuggingFace 模型下载量增长率</td>
+          <td>30%</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       EAPI
+  ══════════════════════════════════════ -->
+  <section class="index-section eapi" id="eapi">
+    <div class="section-tag">● 企业 AI 渗透度</div>
+    <h2>EAPI</h2>
+    <div class="index-fullname">Enterprise AI Penetration Index</div>
+    <p class="lead">
+      EAPI 追踪企业在实际业务中引入 AI 工具的渗透速度，采用 npm 六包体系：
+      AI SDK 三包（OpenAI/Anthropic/Google）代表模型调用层，
+      企业工具三包（dd-trace/snowflake-sdk/Atlassian Triggers）代表生产环境集成层。
+      几何加权综合两者，捕捉企业从"试用模型"到"深度集成"的完整渗透路径。
+    </p>
+
+    <div class="cards-grid">
+      <div class="stat-card">
+        <div class="label">AI SDK 权重</div>
+        <div class="value">60%</div>
+        <div class="sub">几何均值 × 0.6</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">企业工具权重</div>
+        <div class="value">40%</div>
+        <div class="sub">几何均值 × 0.4</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">子指数</div>
+        <div class="value">2 个</div>
+        <div class="sub">AI SDK / 企业工具</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">基点</div>
+        <div class="value">100</div>
+        <div class="sub">2026-03-02 为基准周</div>
+      </div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-title">编制公式</div>
+<pre><span class="comment"># Step 1：归一化（各包除以基准周值，锚定 base=100）</span>
+norm[pkg, t] = downloads[pkg, t] / downloads[pkg, base] × 100
+
+<span class="comment"># Step 2：AI SDK 子指数（等权重几何均值）</span>
+AI_SDK_sub[t] = ( norm[openai,  t]
+               × norm[anthropic, t]
+               × norm[google,    t] )^(1/3)
+
+<span class="comment"># Step 3：企业工具子指数（等权重几何均值）</span>
+Enterprise_sub[t] = ( norm[dd-trace,              t]
+                    × norm[snowflake-sdk,          t]
+                    × norm[@atlaskit/rovo-triggers, t] )^(1/3)
+
+<span class="comment"># Step 4：综合指数（几何加权幂次组合）</span>
+EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
+
+<span class="comment"># 采用几何均值而非算术均值：
+#  — 几何均值对归一化比值做乘法等效于等比中项，对极端值有天然均值回归效应
+#  — 避免被某一个包暴涨拉高综合指数失真</span></pre>
+    </div>
+
+    <table class="packages-table">
+      <thead>
+        <tr>
+          <th>包名</th>
+          <th>归属子指数</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pkg-name">ai-sdk-openai</td>
+          <td>AI SDK（60%）</td>
+          <td>OpenAI 官方 SDK，npm 包名 ai-sdk-openai</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">ai-sdk-anthropic</td>
+          <td>AI SDK（60%）</td>
+          <td>Anthropic 官方 SDK，npm 包名 ai-sdk-anthropic</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">ai-sdk-google</td>
+          <td>AI SDK（60%）</td>
+          <td>Google AI SDK，npm 包名 ai-sdk-google</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">dd-trace</td>
+          <td>企业工具（40%）</td>
+          <td>Datadog 探针，企业可观测性集成</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">snowflake-sdk</td>
+          <td>企业工具（40%）</td>
+          <td>Snowflake 数据仓库 SDK，企业数据管道</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">@atlaskit/rovo-triggers</td>
+          <td>企业工具（40%）</td>
+          <td>Atlassian 企业工作流自动化触发器</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       AADI
+  ══════════════════════════════════════ -->
+  <section class="index-section aadi" id="aadi">
+    <div class="section-tag">● AI 应用落地强度</div>
+    <h2>AADI</h2>
+    <div class="index-fullname">AI Application Development Index</div>
+    <p class="lead">
+      AADI 从应用开发层面追踪 AI 落地热度，基于 PyPI 四大主流 AI SDK 的月下载量：
+      google-genai、openai、anthropic、langchain。
+      等权重几何均值放大趋势差异，适合捕捉应用层爆发节点。
+      基点锚定 2026-03-09，是三个指数中启用最晚的一个。
+    </p>
+
+    <div class="cards-grid">
+      <div class="stat-card">
+        <div class="label">构成包</div>
+        <div class="value">4 个</div>
+        <div class="sub">PyPI 月下载量</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">权重方案</div>
+        <div class="value">等权</div>
+        <div class="sub">几何均值 (1/4)</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">基点</div>
+        <div class="value">100</div>
+        <div class="sub">2026-03-09 为基准周</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">数据频率</div>
+        <div class="value">周度</div>
+        <div class="sub">每周一快照（PyPI 7天汇总）</div>
+      </div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-title">编制公式</div>
+<pre><span class="comment"># Step 1：归一化（锚定 base=100）</span>
+norm[pkg, t] = downloads[pkg, t] / downloads[pkg, base] × 100
+
+<span class="comment"># Step 2：等权重几何均值</span>
+AADI[t] = ( norm[google-genai, t]
+          × norm[openai,       t]
+          × norm[anthropic,   t]
+          × norm[langchain,   t] )^(1/4)
+
+<span class="comment"># 特点：
+#  — 几何均值对增长率的乘法性质天然放大趋势（趋势加强型）
+#  — 与 EAPI 的均值回归特性形成互补
+#  — Power 参数可调（Power=1 为标准几何均值，Power=2-3 放大趋势）
+#  — 本报告采用 Power=1（标准几何均值）</span></pre>
+    </div>
+
+    <table class="packages-table">
+      <thead>
+        <tr>
+          <th>包名</th>
+          <th>来源</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pkg-name">google-genai</td>
+          <td>PyPI</td>
+          <td>Google Gemini 系列模型的 Python SDK</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">openai</td>
+          <td>PyPI</td>
+          <td>OpenAI GPT 系列模型的 Python SDK（含 Assistants API）</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">anthropic</td>
+          <td>PyPI</td>
+          <td>Anthropic Claude 系列的 Python SDK</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">langchain</td>
+          <td>PyPI</td>
+          <td>LangChain LLM 应用框架（含 LCEL 编排）</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       Summary
+  ══════════════════════════════════════ -->
+  <section class="index-section" id="summary">
+    <div class="section-tag">● 对比总览</div>
+    <h2>三指数对比</h2>
+    <div class="index-fullname">Index Comparison Matrix</div>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th style="color:var(--accent-admi)">ADMI</th>
+          <th style="color:var(--accent-eapi)">EAPI</th>
+          <th style="color:var(--accent-aadi)">AADI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>全称</td>
+          <td>AI Developer Momentum Index</td>
+          <td>Enterprise AI Penetration Index</td>
+          <td>AI Application Development Index</td>
+        </tr>
+        <tr>
+          <td>追踪维度</td>
+          <td>开发者活跃度 / 开源生态</td>
+          <td>企业 AI 工具渗透深度</td>
+          <td>AI 应用落地强度</td>
+        </tr>
+        <tr>
+          <td>数据来源</td>
+          <td>GitHub (Star/Fork) + HuggingFace</td>
+          <td>npm 六包（月下载）</td>
+          <td>PyPI 四包（月下载）</td>
+        </tr>
+        <tr>
+          <td>包列表</td>
+          <td>全网 GitHub Stars / Forks / HF Downloads</td>
+          <td>ai-sdk-openai, ai-sdk-anthropic, ai-sdk-google, dd-trace, snowflake-sdk, @atlaskit/rovo-triggers</td>
+          <td>google-genai, openai, anthropic, langchain</td>
+        </tr>
+        <tr>
+          <td>权重方案</td>
+          <td>Star 35% + Fork 35% + HF 30%</td>
+          <td>AI SDK 60% + 企业工具 40%（几何加权）</td>
+          <td>等权重（几何均值）</td>
+        </tr>
+        <tr>
+          <td>聚合方法</td>
+          <td>加权算术增长率 → 复利累积</td>
+          <td>几何均值 → 几何加权幂次组合</td>
+          <td>等权重几何均值</td>
+        </tr>
+        <tr>
+          <td>趋势特性</td>
+          <td>趋势放大（复利累积）</td>
+          <td>均值回归（几何均值对极端值收缩）</td>
+          <td>趋势放大（几何均值放大增速差异）</td>
+        </tr>
+        <tr>
+          <td>基点</td>
+          <td>100（2026-03-02）</td>
+          <td>100（2026-03-02）</td>
+          <td>100（2026-03-09）</td>
+        </tr>
+        <tr>
+          <td>数据频率</td>
+          <td>周度</td>
+          <td>周度</td>
+          <td>周度</td>
+        </tr>
+        <tr>
+          <td>子指数</td>
+          <td>无</td>
+          <td>AI SDK Sub-Index / Enterprise Tools Sub-Index</td>
+          <td>无</td>
+        </tr>
+        <tr>
+          <td>存储表</td>
+          <td>growth_metrics (metric_name=ADMI)</td>
+          <td>growth_metrics (metric_name=enterprise_ai_penetration_index)</td>
+          <td>growth_metrics (metric_name=aadi)</td>
+        </tr>
+        <tr>
+          <td>典型解读</td>
+          <td>ADMI 持续攀升 → 开发者参与度高涨，AI 生态扩张</td>
+          <td>EAPI 高于子指数均值 → 企业从"试用"进入"集成"阶段</td>
+          <td>AADI 爆发节点 → 新一波应用落地浪潮启动</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="page-footer">
+    TransformerFacts Research · AI 应用生态追踪体系<br>
+    数据来源：GitHub · HuggingFace · npm · PyPI
+  </footer>
+</div>
+</body>
+</html>
