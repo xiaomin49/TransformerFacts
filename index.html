@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TransformerFacts · TF数据官</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --bg-soft: #141722;
+      --card-bg: #1a1d27;
+      --card-border: #2a2d3a;
+      --text-primary: #e8eaf0;
+      --text-secondary: #9aa0b4;
+      --text-muted: #5c6070;
+      --accent: #6366f1;
+      --accent-2: #8b5cf6;
+      --eapi: #3db8a2;
+      --radius: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: radial-gradient(1200px 600px at 50% -200px, rgba(99,102,241,0.12), transparent 60%), var(--bg);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── 顶部 ── */
+    .site-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 40px 0 28px;
+    }
+    .site-header img {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+    .site-header .title-wrap h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+    .site-header .title-wrap .sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(99,102,241,0.10), rgba(139,92,246,0.06));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 40px;
+    }
+    .hero p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 760px;
+    }
+    .hero .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .hero .badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 100px;
+      padding: 6px 14px;
+    }
+
+    /* ── 区块标题 ── */
+    .section {
+      margin-bottom: 48px;
+      scroll-margin-top: 24px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-head h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .section-head .tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      background: rgba(139,92,246,0.10);
+      border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    /* ── EAPI 强调卡 ── */
+    .eapi-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(61,184,162,0.07);
+      border: 1px solid rgba(61,184,162,0.28);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+    }
+    .eapi-card .ec-text h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--eapi);
+      margin-bottom: 6px;
+    }
+    .eapi-card .ec-text p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      max-width: 620px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 100px;
+      padding: 11px 22px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-accent {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+    .btn-accent:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-eapi {
+      color: var(--eapi);
+      background: rgba(61,184,162,0.12);
+      border: 1px solid rgba(61,184,162,0.4);
+    }
+    .btn-eapi:hover { background: rgba(61,184,162,0.2); }
+
+    /* ── 历史报告列表 ── */
+    .report-list {
+      display: grid;
+      gap: 12px;
+    }
+    .report-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px 22px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .report-item:hover {
+      border-color: var(--accent);
+      background: #1e2230;
+      transform: translateX(2px);
+    }
+    .report-item .ri-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .report-item .ri-date {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 96px;
+    }
+    .report-item .ri-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .report-item .ri-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .report-item .ri-arrow {
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+    .report-item:hover .ri-arrow { color: var(--accent); }
+
+    /* ── 页脚 ── */
+    .site-footer {
+      margin-top: 64px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 28px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .site-footer a { color: var(--text-secondary); text-decoration: none; }
+    .site-footer a:hover { color: var(--accent); }
+    .site-footer .disclaimer {
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: var(--bg-soft);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      iframe.report-embed { height: 1100px; }
+      .report-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 顶部 LOGO + 标题 -->
+  <header class="site-header">
+    <img src="transformerfacts_logo.svg" alt="TransformerFacts LOGO">
+    <div class="title-wrap">
+      <h1>TransformerFacts · TF数据官</h1>
+      <div class="sub">AI 产业先行指标监测 + 投研支持框架</div>
+    </div>
+  </header>
+
+  <!-- Hero 简介 -->
+  <section class="hero">
+    <p>
+      <strong>TransformerFacts（简称 TF数据官）</strong> 是一套聚焦 AI 产业真实落地节奏的先行指标监测与深度研究体系。
+      它不预测股价，而是用<strong>可量化、可回溯、可对比</strong>的先行指标，识别 AI 产业的周期拐点、供需结构变化、
+      算力通胀风险与就业结构变迁，为产业研究、投资决策与技术落地提供客观、前置、可落地的数据支撑。
+    </p>
+    <div class="badges">
+      <span class="badge">数据：Supabase</span>
+      <span class="badge">技术栈：Node + Python</span>
+      <span class="badge">指数：ADMI · EAPI · AADI</span>
+      <span class="badge">周报：每周自动生成</span>
+    </div>
+  </section>
+
+  <!-- EAPI 指数 -->
+  <section class="section" id="eapi">
+    <div class="section-head">
+      <h2>EAPI 指数</h2>
+      <span class="tag">Index</span>
+    </div>
+    <div class="eapi-card">
+      <div class="ec-text">
+        <h3>EAPI · 企业 AI 渗透度指数</h3>
+        <p>
+          EAPI（Enterprise AI Penetration Index）追踪企业在实际业务中引入 AI 工具的渗透速度，采用 npm 六包体系：
+          AI SDK 三包（OpenAI / Anthropic / Google）权重 60%，企业工具三包（dd-trace / snowflake-sdk / Atlassian Triggers）权重 40%，
+          几何加权合成，捕捉企业从"试用模型"到"深度集成"的完整渗透路径。
+        </p>
+      </div>
+      <a class="btn btn-eapi" href="ai-indices-methodology.html">查看指数方法论 →</a>
+    </div>
+  </section>
+
+  <!-- 历史报告 -->
+  <section class="section" id="archive">
+    <div class="section-head">
+      <h2>往期周报</h2>
+      <span class="tag">Archive</span>
+    </div>
+    <div class="report-list">
+      <a class="report-item" href="reports/ai-weekly-2026-09-07.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-09-07</div>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-09-07.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
+      <a class="report-item" href="reports/ai-weekly-2026-08-31.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-08-31</div>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-08-31.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
+      <a class="report-item" href="reports/ai-weekly-2026-08-24.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-08-24</div>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-08-24.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
+      <a class="report-item" href="reports/ai-weekly-2026-08-17.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-08-17</div>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-08-17.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
+      <a class="report-item" href="reports/ai-weekly-2026-08-10.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-08-10</div>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-08-10.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div>
+      TransformerFacts · TF数据官 &nbsp;|&nbsp;
+      <a href="ai-indices-methodology.html">指数方法论</a> &nbsp;·&nbsp;
+      <a href="https://transformerfacts.substack.com/" target="_blank">Substack 专栏</a>
+    </div>
+    <div class="disclaimer">
+      ⚠️ <strong>免责声明</strong>：TransformerFacts（"TF数据官"）是投研与个人知识管理工具，不构成投资建议。
+      所有市场数据、公司信息、财务数字、新闻和监管信息都应以原始来源为准。本项目的指数、模型与报告基于公开数据合成，
+      可能存在滞后、误差或方法论局限，使用者须独立判断并自担风险。
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

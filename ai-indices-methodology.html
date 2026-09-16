@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI 应用生态三大指数体系 — 编制原理</title>
+  <title>EAPI 企业 AI 渗透指数 — 编制原理</title>
   <style>
     :root {
       --bg: #0f1117;
@@ -12,15 +12,9 @@
       --text-primary: #e8eaf0;
       --text-secondary: #8b8fa3;
       --text-muted: #5c6070;
-      --accent-admi: #7c6fe0;
       --accent-eapi: #e07b4c;
-      --accent-aadi: #3db8a2;
-      --accent-admi-light: #a599f5;
       --accent-eapi-light: #f5a882;
-      --accent-aadi-light: #6fd4c8;
-      --surface-admi: rgba(124, 111, 224, 0.08);
       --surface-eapi: rgba(224, 123, 76, 0.08);
-      --surface-aadi: rgba(61, 184, 162, 0.08);
       --border-radius: 12px;
       --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
       --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -64,14 +58,14 @@
     .page-header .subtitle {
       font-size: 16px;
       color: var(--text-secondary);
-      max-width: 580px;
+      max-width: 620px;
       margin: 0 auto;
       line-height: 1.8;
     }
     .divider {
       width: 48px;
       height: 3px;
-      background: linear-gradient(90deg, var(--accent-admi), var(--accent-eapi), var(--accent-aadi));
+      background: linear-gradient(90deg, var(--accent-eapi-light), var(--accent-eapi));
       border-radius: 2px;
       margin: 32px auto 0;
     }
@@ -93,11 +87,9 @@
       font-size: 13px;
       font-weight: 600;
       transition: all 0.2s;
-      border: 1px solid;
     }
-    .index-nav a.admi { color: var(--accent-admi); border-color: var(--accent-admi); background: var(--surface-admi); }
-    .index-nav a.eapi { color: var(--accent-eapi); border-color: var(--accent-eapi); background: var(--surface-eapi); }
-    .index-nav a.aadi { color: var(--accent-aadi); border-color: var(--accent-aadi); background: var(--surface-aadi); }
+    .index-nav a.eapi { color: var(--accent-eapi); border: 1px solid var(--accent-eapi); background: var(--surface-eapi); }
+    .index-nav a.neutral { color: var(--text-secondary); border: 1px solid var(--card-border); background: transparent; }
     .index-nav a:hover { opacity: 0.8; }
 
     .index-section {
@@ -116,9 +108,7 @@
       text-transform: uppercase;
       margin-bottom: 20px;
     }
-    .index-section.admi  .section-tag { color: var(--accent-admi);  background: var(--surface-admi);  border: 1px solid rgba(124,111,224,0.25); }
     .index-section.eapi  .section-tag { color: var(--accent-eapi);  background: var(--surface-eapi);  border: 1px solid rgba(224,123,76,0.25); }
-    .index-section.aadi  .section-tag { color: var(--accent-aadi);  background: var(--surface-aadi);  border: 1px solid rgba(61,184,162,0.25); }
 
     .index-section h2 {
       font-size: 26px;
@@ -264,103 +254,20 @@
 
   <header class="page-header">
     <div class="eyebrow">TransformerFacts Research</div>
-    <h1>AI 应用生态三大指数体系</h1>
+    <h1>EAPI 企业 AI 渗透指数</h1>
     <p class="subtitle">
-      ADMI、EAPI、AADI 分别从开发者活跃度、企业渗透度、应用落地强度
-      三个维度追踪 AI 产业演进，为 AI 投资与研究提供可量化的结构性指标。
+      EAPI（企业 AI 渗透指数）通过 npm 包下载量追踪企业在实际业务中引入 AI 工具的渗透速度。
+      本页说明其编制原理，并补充「真实支出指数」——引入 token 价格代理对下载量做平减，
+      剥离价格因素，逼近企业真实 AI 支出口径。
     </p>
     <div class="divider"></div>
   </header>
 
   <nav class="index-nav">
-    <a href="#admi" class="admi">● ADMI</a>
-    <a href="#eapi" class="eapi">● EAPI</a>
-    <a href="#aadi" class="aadi">● AADI</a>
-    <a href="#summary">● 对比总览</a>
+    <a href="#eapi" class="eapi">● EAPI 名义指数</a>
+    <a href="#realspend" class="eapi">● 真实支出指数</a>
+    <a href="#summary" class="neutral">● EAPI 指数族对比</a>
   </nav>
-
-  <!-- ══════════════════════════════════════
-       ADMI
-  ══════════════════════════════════════ -->
-  <section class="index-section admi" id="admi">
-    <div class="section-tag">● AI 开发者活跃度</div>
-    <h2>ADMI</h2>
-    <div class="index-fullname">AI Developer Momentum Index</div>
-    <p class="lead">
-      ADMI 从开源生态的核心参与者视角出发，通过 GitHub Star、GitHub Fork
-      和 HuggingFace 下载量三类指标，加权合成开发者对 AI 项目的关注度与参与度变化趋势。
-      衡量的是 AI 模型与工具在开发者社区中的传播速度与参与热情。
-    </p>
-
-    <div class="cards-grid">
-      <div class="stat-card">
-        <div class="label">权重方案</div>
-        <div class="value">0.35 / 0.35 / 0.30</div>
-        <div class="sub">Star / Fork / HF 下载</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">基点</div>
-        <div class="value">100</div>
-        <div class="sub">2026-03-02 为基准周</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">数据频率</div>
-        <div class="value">周度</div>
-        <div class="sub">每周一快照</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">存储位置</div>
-        <div class="value">growth_metrics</div>
-        <div class="sub">metric_name=ADMI</div>
-      </div>
-    </div>
-
-    <div class="formula-block">
-      <div class="formula-title">编制公式</div>
-<pre><span class="comment"># Step 1：计算三项增长率（7天滚动环比）</span>
-star_rate  = github_star[t] / github_star[t-7d] − 1
-fork_rate = github_fork[t] / github_fork[t-7d] − 1
-hf_rate   = hf_downloads[t] / hf_downloads[t-7d] − 1
-
-<span class="comment"># Step 2：加权聚合</span>
-composite_growth = 0.35 × star_rate
-                + 0.35 × fork_rate
-                + 0.30 × hf_rate
-
-<span class="comment"># Step 3：基点复利累积</span>
-ADMI[t] = ADMI[t-1] × (1 + composite_growth)
-
-<span class="comment"># 等价形式（以基准周为锚）</span>
-ADMI[t] = 100 × Π (1 + growth_i)^w_i    <span class="comment">← 几何加权复利模型</span></pre>
-    </div>
-
-    <table class="packages-table">
-      <thead>
-        <tr>
-          <th>指标</th>
-          <th>说明</th>
-          <th>权重</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="pkg-name">github_all_star_growth_rate_7d</td>
-          <td>全网 GitHub 项目 Star 增长率</td>
-          <td>35%</td>
-        </tr>
-        <tr>
-          <td class="pkg-name">github_all_fork_growth_rate_7d</td>
-          <td>全网 GitHub 项目 Fork 增长率</td>
-          <td>35%</td>
-        </tr>
-        <tr>
-          <td class="pkg-name">huggingface_all_downloads_growth_rate_7d</td>
-          <td>HuggingFace 模型下载量增长率</td>
-          <td>30%</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
 
   <!-- ══════════════════════════════════════
        EAPI
@@ -463,193 +370,157 @@ EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
         </tr>
       </tbody>
     </table>
-  </section>
 
-  <!-- ══════════════════════════════════════
-       AADI
-  ══════════════════════════════════════ -->
-  <section class="index-section aadi" id="aadi">
-    <div class="section-tag">● AI 应用落地强度</div>
-    <h2>AADI</h2>
-    <div class="index-fullname">AI Application Development Index</div>
+    <!-- ░░░░░░░░░░ 真实支出指数 ░░░░░░░░░░ -->
+    <h3 id="realspend" style="margin:40px 0 8px;font-size:19px;color:var(--accent-eapi)">真实支出指数（价格平减）</h3>
     <p class="lead">
-      AADI 从应用开发层面追踪 AI 落地热度，基于 PyPI 四大主流 AI SDK 的月下载量：
-      google-genai、openai、anthropic、langchain。
-      等权重几何均值放大趋势差异，适合捕捉应用层爆发节点。
-      基点锚定 2026-03-09，是三个指数中启用最晚的一个。
+      EAPI 综合指数只反映<strong>下载量（用量）</strong>的增速。由于 token 价格指数持续下行，
+      仅看下载量会高估企业的"实际开支"。真实支出指数引入价格代理 OPTI_VERCEL_OUTPUT
+      （Vercel token 价格指数，日线，2026-07-10 起）对 EAPI 做平减，剥离价格因素，
+      得到更接近企业<strong>真实支出</strong>的口径。
     </p>
 
     <div class="cards-grid">
       <div class="stat-card">
-        <div class="label">构成包</div>
-        <div class="value">4 个</div>
-        <div class="sub">PyPI 月下载量</div>
+        <div class="label">价格代理</div>
+        <div class="value" style="font-size:15px">OPTI_VERCEL_OUTPUT</div>
+        <div class="sub">Vercel token 价格指数（日线）</div>
       </div>
       <div class="stat-card">
-        <div class="label">权重方案</div>
-        <div class="value">等权</div>
-        <div class="sub">几何均值 (1/4)</div>
+        <div class="label">传导系数 α</div>
+        <div class="value">0.3</div>
+        <div class="sub">弱传导：锁价/合约价几乎不传导</div>
       </div>
       <div class="stat-card">
-        <div class="label">基点</div>
-        <div class="value">100</div>
-        <div class="sub">2026-03-09 为基准周</div>
+        <div class="label">价格锚点</div>
+        <div class="value" style="font-size:15px">2026-07-10</div>
+        <div class="sub">pre-07-10 周 ratio=1</div>
       </div>
       <div class="stat-card">
-        <div class="label">数据频率</div>
-        <div class="value">周度</div>
-        <div class="sub">每周一快照（PyPI 7天汇总）</div>
+        <div class="label">价格平滑</div>
+        <div class="value">无</div>
+        <div class="sub">直接按周窗口(7日)均值</div>
       </div>
     </div>
 
     <div class="formula-block">
       <div class="formula-title">编制公式</div>
-<pre><span class="comment"># Step 1：归一化（锚定 base=100）</span>
-norm[pkg, t] = downloads[pkg, t] / downloads[pkg, base] × 100
+<pre><span class="comment"># Step 1：每周价格比（周窗口 (t-7, t] 内日线均值 / 07-10 锚点）</span>
+price_ratio[t] = mean(OPTI_VERCEL_OUTPUT within week) / OPTI_VERCEL_OUTPUT(2026-07-10)
 
-<span class="comment"># Step 2：等权重几何均值</span>
-AADI[t] = ( norm[google-genai, t]
-          × norm[openai,       t]
-          × norm[anthropic,   t]
-          × norm[langchain,   t] )^(1/4)
+<span class="comment"># Step 2：阻尼平减因子（α 为价格传导系数）</span>
+<span class="comment">#  α=1.0 完全传导（硬平减，会夸大价格崩盘）</span>
+<span class="comment">#  α=0.3 弱传导（企业锁价，现货跌几乎不传到实际支出）→ 当前取值</span>
+<span class="comment">#  α=0.0 无传导（真实支出 == 名义 EAPI）</span>
+price_deflator[t] = price_ratio[t]^α        (α = 0.3)
 
-<span class="comment"># 特点：
-#  — 几何均值对增长率的乘法性质天然放大趋势（趋势加强型）
-#  — 与 EAPI 的均值回归特性形成互补
-#  — Power 参数可调（Power=1 为标准几何均值，Power=2-3 放大趋势）
-#  — 本报告采用 Power=1（标准几何均值）</span></pre>
+<span class="comment"># Step 3：真实支出指数 = 名义 EAPI × 阻尼平减因子</span>
+RealSpend[t] = EAPI[t] × price_deflator[t]
+
+<span class="comment"># Step 4：4 周移动平均（平滑周度噪声）</span>
+RealSpend_MA4[t] = mean(RealSpend[t], RealSpend[t-1], RealSpend[t-2], RealSpend[t-3])
+
+<span class="comment"># Step 5：一阶导数（周环比差分，刻画支出动能与拐点）</span>
+RealSpend_MA4_deriv[t] = RealSpend_MA4[t] − RealSpend_MA4[t-1]
+
+<span class="comment"># 注：纯 log2 不改变结果(2^log2(r)=r，等价于 α=1)，"维持7月高位"的</span>
+<span class="comment">#     杠杆是 α 而非 log2；α=0.3 时真实支出稳在 7 月高位(约 160–200)。</span></pre>
     </div>
 
-    <table class="packages-table">
+    <h3 style="margin:32px 0 8px;font-size:17px;color:var(--accent-eapi)">口径对比：名义 EAPI vs 真实支出指数</h3>
+    <table class="summary-table">
       <thead>
         <tr>
-          <th>包名</th>
-          <th>来源</th>
-          <th>说明</th>
+          <th>口径</th>
+          <th>2026-07-13</th>
+          <th>2026-09-14</th>
+          <th>期间变化</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="pkg-name">google-genai</td>
-          <td>PyPI</td>
-          <td>Google Gemini 系列模型的 Python SDK</td>
+          <td>名义 EAPI（下载量 / 用量）</td>
+          <td>163.26</td>
+          <td>281.09</td>
+          <td>+72.2%</td>
         </tr>
         <tr>
-          <td class="pkg-name">openai</td>
-          <td>PyPI</td>
-          <td>OpenAI GPT 系列模型的 Python SDK（含 Assistants API）</td>
-        </tr>
-        <tr>
-          <td class="pkg-name">anthropic</td>
-          <td>PyPI</td>
-          <td>Anthropic Claude 系列的 Python SDK</td>
-        </tr>
-        <tr>
-          <td class="pkg-name">langchain</td>
-          <td>PyPI</td>
-          <td>LangChain LLM 应用框架（含 LCEL 编排）</td>
+          <td>真实支出指数（α=0.3 平减）</td>
+          <td>159.19</td>
+          <td>197.05</td>
+          <td>+23.8%</td>
         </tr>
       </tbody>
     </table>
+    <p class="lead" style="margin-top:16px">
+      真实支出指数 09-14 为 <strong>197.05</strong>，与 7 月高位区间（约 160–200）基本持平：
+      尽管名义下载量近乎翻倍，但 token 价格下行拉低了单位支出，企业真实 AI 支出并未同比例膨胀，
+      印证「支出维持 7 月高位」的判断。
+    </p>
+
+    <p style="background:#fffbeb;border-left:3px solid var(--accent-eapi);padding:10px 14px;margin:14px 0 8px;font-size:13px;line-height:1.7;color:#374151">
+      ⚠️ <strong>口径说明：</strong>OPTI_VERCEL_OUTPUT 是 Vercel token 价格的<strong>代理指标</strong>，并非 EAPI 内
+      npm 包（ai-sdk / dd-trace / snowflake-sdk）的真实合约价，且日线波动较大
+      （07-10 的 9.228 → 09-16 的 2.336，跌约 75%）。      采用 α=0.3 弱传导是为了反映
+      "企业多为锁价/合约价、现货价格暴跌几乎不传导到实际支出"的现实；结论的
+      <strong>方向稳健</strong>，但绝对幅度为示意值。
+    </p>
   </section>
 
   <!-- ══════════════════════════════════════
-       Summary
+       EAPI 指数族对比
   ══════════════════════════════════════ -->
   <section class="index-section" id="summary">
-    <div class="section-tag">● 对比总览</div>
-    <h2>三指数对比</h2>
-    <div class="index-fullname">Index Comparison Matrix</div>
+    <div class="section-tag" style="color:var(--accent-eapi);background:var(--surface-eapi);border:1px solid rgba(224,123,76,0.25)">● EAPI 指数族</div>
+    <h2>EAPI 指数族对比</h2>
+    <div class="index-fullname">EAPI Index Family</div>
 
     <table class="summary-table">
       <thead>
         <tr>
-          <th>维度</th>
-          <th style="color:var(--accent-admi)">ADMI</th>
-          <th style="color:var(--accent-eapi)">EAPI</th>
-          <th style="color:var(--accent-aadi)">AADI</th>
+          <th>指标</th>
+          <th>口径</th>
+          <th>计算方式</th>
+          <th>用途</th>
+          <th>存储 metric_name</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>全称</td>
-          <td>AI Developer Momentum Index</td>
-          <td>Enterprise AI Penetration Index</td>
-          <td>AI Application Development Index</td>
+          <td>EAPI 名义指数</td>
+          <td>下载量 / 用量</td>
+          <td>几何加权（AI SDK 60% + 企业工具 40%）</td>
+          <td>跟踪企业从"试用"到"深度集成"的渗透速度</td>
+          <td>enterprise_ai_penetration_index</td>
         </tr>
         <tr>
-          <td>追踪维度</td>
-          <td>开发者活跃度 / 开源生态</td>
-          <td>企业 AI 工具渗透深度</td>
-          <td>AI 应用落地强度</td>
+          <td>真实支出指数</td>
+          <td>名义 × 价格阻尼平减</td>
+          <td>EAPI × price_ratio^0.3</td>
+          <td>剥离 token 价格因素，逼近企业真实 AI 支出</td>
+          <td>enterprise_ai_real_spend_index</td>
         </tr>
         <tr>
-          <td>数据来源</td>
-          <td>GitHub (Star/Fork) + HuggingFace</td>
-          <td>npm 六包（月下载）</td>
-          <td>PyPI 四包（月下载）</td>
+          <td>真实支出 MA4</td>
+          <td>真实支出 4 周移动平均</td>
+          <td>mean(RealSpend 近 4 周)</td>
+          <td>平滑周度噪声，呈现趋势</td>
+          <td>enterprise_ai_real_spend_index_ma4</td>
         </tr>
         <tr>
-          <td>包列表</td>
-          <td>全网 GitHub Stars / Forks / HF Downloads</td>
-          <td>ai-sdk-openai, ai-sdk-anthropic, ai-sdk-google, dd-trace, snowflake-sdk, @atlaskit/rovo-triggers</td>
-          <td>google-genai, openai, anthropic, langchain</td>
-        </tr>
-        <tr>
-          <td>权重方案</td>
-          <td>Star 35% + Fork 35% + HF 30%</td>
-          <td>AI SDK 60% + 企业工具 40%（几何加权）</td>
-          <td>等权重（几何均值）</td>
-        </tr>
-        <tr>
-          <td>聚合方法</td>
-          <td>加权算术增长率 → 复利累积</td>
-          <td>几何均值 → 几何加权幂次组合</td>
-          <td>等权重几何均值</td>
-        </tr>
-        <tr>
-          <td>趋势特性</td>
-          <td>趋势放大（复利累积）</td>
-          <td>均值回归（几何均值对极端值收缩）</td>
-          <td>趋势放大（几何均值放大增速差异）</td>
-        </tr>
-        <tr>
-          <td>基点</td>
-          <td>100（2026-03-02）</td>
-          <td>100（2026-03-02）</td>
-          <td>100（2026-03-09）</td>
-        </tr>
-        <tr>
-          <td>数据频率</td>
-          <td>周度</td>
-          <td>周度</td>
-          <td>周度</td>
-        </tr>
-        <tr>
-          <td>子指数</td>
-          <td>无</td>
-          <td>AI SDK Sub-Index / Enterprise Tools Sub-Index</td>
-          <td>无</td>
-        </tr>
-        <tr>
-          <td>存储表</td>
-          <td>growth_metrics (metric_name=ADMI)</td>
-          <td>growth_metrics (metric_name=enterprise_ai_penetration_index)</td>
-          <td>growth_metrics (metric_name=aadi)</td>
-        </tr>
-        <tr>
-          <td>典型解读</td>
-          <td>ADMI 持续攀升 → 开发者参与度高涨，AI 生态扩张</td>
-          <td>EAPI 高于子指数均值 → 企业从"试用"进入"集成"阶段</td>
-          <td>AADI 爆发节点 → 新一波应用落地浪潮启动</td>
+          <td>真实支出 MA4 一阶导数</td>
+          <td>周环比差分</td>
+          <td>RealSpend_MA4[t] − RealSpend_MA4[t-1]</td>
+          <td>刻画支出动能与拐点</td>
+          <td>enterprise_ai_real_spend_index_ma4_deriv</td>
         </tr>
       </tbody>
     </table>
   </section>
 
   <footer class="page-footer">
-    TransformerFacts Research · AI 应用生态追踪体系<br>
-    数据来源：GitHub · HuggingFace · npm · PyPI
+    TransformerFacts Research · EAPI 企业 AI 渗透指数体系<br>
+    数据来源：npm（ai-sdk / dd-trace / snowflake-sdk / @atlaskit/rovo-triggers）· OPTI_VERCEL_OUTPUT（Vercel token 价格代理）
   </footer>
 </div>
 </body>

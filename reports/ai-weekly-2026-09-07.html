@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>AI 应用生态周报 2026-09-07</title>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1100px;margin:0 auto;padding:20px;color:#222}
+  h1{color:#1a1a1a;border-bottom:2px solid #eee;padding-bottom:8px}
+  h2{margin-top:28px;color:#333}
+  table{width:100%;border-collapse:collapse;margin-top:6px}
+  th{background:#f5f5f5;text-align:left;padding:6px 10px;border-bottom:2px solid #ddd;font-size:12px}
+  td{padding:5px 10px;border-bottom:1px solid #eee;font-size:12px}
+  code{font-size:11px;color:#6366f1}
+  .insight{background:#f8fafc;border-left:3px solid #6366f1;padding:10px 14px;margin:8px 0;font-size:12px;color:#334155;line-height:1.7}
+  .footer{margin-top:40px;font-size:11px;color:#999;text-align:center}
+  .chart-card{background:#1a1f2e;border-radius:12px;padding:16px;margin:16px 0}
+  .chart-card-title{color:#e2e8f0;font-size:13px;font-weight:500}
+  .chart-card-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b}
+  .chart-card-legend-item{display:flex;align-items:center;gap:3px}
+  .chart-card-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+  .chart-card-source{font-size:9px;color:#64748b}
+  .chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>if(typeof Chart==='undefined'){document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"><\/script>');}</script>
+</head>
+<body>
+
+<h1>🤖 AI 应用生态周报 2026-09-07</h1>
+<p style="font-size:12px;color:#9ca3af;margin-top:4px">数据来源：HuggingFace · GitHub · NPM &nbsp;|&nbsp 生成时间：2026-09-08 18:42</p>
+
+<!-- [区块1] AI 应用发展指数（ADMI / EAPI） -->
+<div>
+  <h2>📊 AI 应用发展指数（ADMI / EAPI）</h2>
+  <div style="margin-bottom:6px"><a href="https://xiaomin49.github.io/TransformerFacts/ai-indices-methodology.html" target="_blank" style="color:#6366f1;font-size:12px">≫ 了解指数方法论</a></div>
+  <div class="insight">
+    <b>ADMI</b> 144.5（▲+1.43）开发者活跃度 ·
+    <b>EAPI</b> 209.3（▼-25.90）企业渗透度
+     · GPU $3.0492/H100（+1.2%/周）
+  </div>
+  <div class="insight">
+    <b>ADMI</b> 趋势型指数，GitHub Star/Fork 加权增长率累加，本周 ▲+1.43 在 144.5 高位整固，开发者社区热度稳定。
+  </div>
+  <div class="insight">
+    <b>EAPI</b> 均值回归型，npm 六包几何均值（base=100），本周 ▼-25.90； · GPU $3.0492/H100（+1.2%/周） 缓解企业采购压力，需求未萎缩。
+  </div>
+  <div class="chart-container" style="background:#1a1f2e;border-radius:12px;padding:16px;margin:16px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="color:#e2e8f0;font-size:13px;font-weight:500;">AI 应用发展指数</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b;">
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#6366f1;border-radius:2px;"></span>ADMI</span>
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>EAPI</span>
+      </div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;"><canvas id="indicesTrendChart"></canvas></div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:#64748b;"><span>数据来源：PyPI, npm, GitHub, HuggingFace</span><span>经 TransformerFacts 整理</span></div>
+  </div>
+  <script>
+  var indicesTrendData = {"labels": ["26/03/02", "26/03/09", "26/03/16", "26/03/23", "26/03/30", "26/04/06", "26/04/13", "26/04/20", "26/04/27", "26/05/04", "26/05/11", "26/05/18", "26/05/25", "26/06/01", "26/06/08", "26/06/15", "26/06/22", "26/06/29", "26/07/06", "26/07/13", "26/07/20", "26/07/27", "26/08/03", "26/08/10", "26/08/17", "26/08/24", "26/08/31", "26/09/07"], "datasets": [{"label": "ADMI", "data": [null, 100.0, 101.3161, 102.9626, 103.6731, 106.1149, 109.4306, 111.6648, 112.9191, 114.6675, 117.0239, 116.931, 120.3864, 121.9375, 123.8336, 125.1363, 128.64, 130.1308, 131.5164, 135.2029, 135.2524, 136.0206, 137.2026, 138.6735, 141.1769, 141.984, 143.0812, 144.51548411651194], "borderColor": "#6366f1", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}, {"label": "EAPI", "data": [100.0, 105.3595, 106.4387, 69.3345, 113.4495, 111.4931, 119.3893, 130.39, 133.5033, 136.3825, 145.9082, 153.4069, 150.6731, 138.6303, 126.4567, 172.986, 161.2833, 167.5869, 160.599, 163.2598, 213.4889, 200.2786, 210.6119, 207.1679, 222.9771, 222.8699, 235.1825, 209.2851], "borderColor": "#10b981", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}]};
+  new Chart(document.getElementById('indicesTrendChart'), {
+    type: 'line',
+    data: indicesTrendData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+          callbacks: { label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1); } }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 10, padding: 8 }},
+        y: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', padding: 8 } }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块3] Agent 生产力工具追踪 -->
+<div>
+  <h2>🛠️ Agent 生产力工具追踪</h2>
+  <div class="insight">
+    三款工具覆盖三种截然不同的用户群：Claude Code 主打个人开发者的高频编码场景，OpenClaw 面向企业级任务自动化，OpenAI Codex 则是 OpenAI 对开发者生态的官方渗透。三者周下载量级差异达 5 倍以上，说明<strong>个人开发者仍是 Agent 工具的核心使用群体</strong>，企业端渗透仍处早期。
+  </div>
+  <div class="chart-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="chart-card-title">Agent Productivity Tools</div>
+      <div style="display:flex;gap:12px;font-size:9px;color:#64748b;">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#6366f1;border-radius:2px;"></span>Claude Code</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#f59e0b;border-radius:2px;"></span>OpenClaw</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>OpenAI Codex</span>
+      </div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;">
+      <canvas id="agentToolsChart"></canvas>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;" class="chart-card-source">
+      <span>数据来源：npmjs.org</span><span>经 TransformerFacts 整理</span>
+    </div>
+  </div>
+  <script>
+  var agentLineData = {"labels": ["06/21", "06/28", "07/05", "07/12", "07/19", "07/26", "08/02", "08/09", "08/16", "08/23", "08/30", "09/06"], "datasets": [{"label": "Claude Code", "data": [8899273, 10131661, 10191078, 8315015, 10374454, 9707787, 9658946, 13609247, 20198969, 20923826, 19760476, 13312034], "borderColor": "#6366f1", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false}, {"label": "OpenClaw", "data": [3238216, 3034955, 2338108, 1765928, 2597296, 2424034, 2681752, 2282449, 2585587, 2182394, 2998014, 2788316], "borderColor": "#f59e0b", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false}, {"label": "OpenAI Codex", "data": [9780828, 12375319, 9406542, 9117449, 14499398, 13392023, 15107496, 14470250, 13873240, 14428507, 18686609, 18300006], "borderColor": "#10b981", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false}]};
+  new Chart(document.getElementById('agentToolsChart'), {
+    type: 'line',
+    data: agentLineData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0', callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + (ctx.parsed.y/1000).toFixed(0)+'K'; } } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { callback: function(v) { return (v/1000).toFixed(0)+'K'; }, color: '#64748b' } }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块4] 大模型 SDK 月下载量对比 -->
+<div>
+  <h2>📡 大模型 API SDK 月下载对比</h2>
+  <div class="insight">
+    OpenAI SDK 月下载量仍是其他四家总和的 2 倍以上，但 Anthropic 增速持续高于行业均值，显示 Claude 在开发者口碑中完成了<strong>从「备选」到「主力」的身份切换</strong>。Google GenAI 和智谱 AI 在中国出海市场形成稳定基本盘，月下载分别在 500K 和 200K 量级窄幅波动。阿里 Qwen SDK 增速与 Qwen 开源模型热度强相关，Qwen3 发布后预计有一波显著拉动。
+  </div>
+  <div class="chart-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="chart-card-title">Aggregated SDK Downloads</div>
+      <div class="chart-card-legend">
+        <span class="chart-card-legend-item"><span class="chart-card-legend-dot" style="background:#6366f1;border-radius:2px"></span>合计下载量</span>
+        <span class="chart-card-legend-item"><span style="width:16px;height:2px;background:#f59e0b;border-radius:0;display:inline-block;vertical-align:middle;margin-right:4px"></span>环比增长(MoM)</span>
+      </div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;">
+      <canvas id="llmSdkChart"></canvas>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;" class="chart-card-source">
+      <span>数据来源：npmjs.org</span><span>经 TransformerFacts 整理</span>
+    </div>
+  </div>
+  <script>
+  var llmSdkData = {"labels": ["25/10", "25/11", "25/12", "26/01", "26/02", "26/03", "26/04", "26/05", "26/06", "26/07", "26/08"], "datasets": [{"label": "合计下载量", "data": [262234573, 368094407, 411864873, 391498960, 460607682, 574345719, 596254599, 704523849, 781628263, 885511350, 887765971], "backgroundColor": "#6366f1", "borderColor": "#6366f1", "borderWidth": 1, "borderRadius": 3, "order": 2, "yAxisID": "y", "type": "bar"}, {"label": "MoM Growth", "data": [null, 40.4, 11.9, -4.9, 17.7, 24.7, 3.8, 18.2, 10.9, 13.3, 0.3], "borderColor": "#f59e0b", "backgroundColor": "transparent", "borderWidth": 2.5, "pointRadius": 3, "pointHoverRadius": 5, "pointBackgroundColor": "#f59e0b", "tension": 0.3, "fill": false, "spanGaps": true, "order": 1, "yAxisID": "y1", "type": "line"}]};
+  new Chart(document.getElementById('llmSdkChart'), {
+    type: 'bar',
+    data: llmSdkData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          titleColor: '#94a3b8',
+          bodyColor: '#e2e8f0',
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === 'y1') {
+                if (ctx.raw === null) return null;
+                return ' MoM Growth: ' + (ctx.raw >= 0 ? '+' : '') + ctx.raw.toFixed(1) + '%';
+              }
+              return ' 合计下载量: ' + (ctx.raw / 1000000).toFixed(2) + 'M';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 12, padding: 10, maxRotation: 0, autoSkip: true } },
+        y: {
+          type: 'linear', position: 'left',
+          grid: { color: 'rgba(100,116,139,0.15)' },
+          ticks: { color: '#64748b', callback: function(v) { return (v / 1000000).toFixed(0) + 'M'; }, padding: 8 },
+          min: 0
+        },
+        y1: {
+          type: 'linear', position: 'right',
+          grid: { drawOnChartArea: false },
+          ticks: { color: '#f59e0b', callback: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }, padding: 8 },
+          min: Math.min.apply(null, llmSdkData.datasets[1].data.filter(function(v){return v!=null;})) - 5
+        }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块5] HuggingFace Top 10 模型 -->
+<div>
+  <h2>🏆 HuggingFace Top 10 模型（按下载量排序）</h2>
+  <div class="insight">
+    <strong>📈 下载 Top10 · 上周增速前 3：</strong>
+    <br><b>1. google/electra-base-discriminator</b>（Google·BERT系列）：54.8M → 58.4M，<span style="color:#16a34a">周环比 +6.6%</span>——Google·BERT系列生态需求旺盛，社区使用持续爬坡<br><b>2. BAAI/bge-m3</b>（句子嵌入模型）：37.1M → 38.0M，<span style="color:#16a34a">周环比 +2.4%</span>——检索/嵌入类模型走强，RAG 已成工程标配<br><b>3. google-t5/t5-small</b>（Google·BERT系列）：23.0M → 23.4M，<span style="color:#16a34a">周环比 +1.7%</span>——Google·BERT系列生态需求旺盛，社区使用持续爬坡
+    <strong>总趋势：</strong>下载 Top10 由检索/嵌入模型（all-MiniLM、ms-marco、bge 系列）与 BERT 系经典基模占据，标志<strong>RAG 已成工程标配、基线模型长青</strong>。头部模型基数巨大，周环比普遍温和（多在 ±5% 内），个位数增长即对应百万级净增下载。<strong>下载榜与增速榜的错位</strong>反映存量工具模型与新兴场景模型（多模态、GGUF 本地部署）的分层：新秀增长快但绝对量仍小，尚未撼动存量格局。
+  </div>
+  <div class="chart-container" style="background:#1a1f2e;border-radius:12px;padding:16px;margin:16px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="color:#e2e8f0;font-size:13px;font-weight:500;">HuggingFace Top 10 Models</div>
+      <div style="font-size:10px;color:#64748b;">by total downloads (this week)</div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;">
+      <canvas id="hfTop10Chart"></canvas>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:#64748b;">
+      <span>数据来源：Hugging Face</span><span>经 TransformerFacts 整理</span>
+    </div>
+  </div>
+  <script>
+  var hfTop10Data = {"labels": ["all-MiniLM-L6-v2", "ms-marco-MiniLM-L6-v2", "bge-small-en-v1.5", "electra-base-discriminato", "bert-base-uncased", "paraphrase-multilingual-M", "bge-m3", "chronos-2", "all-mpnet-base-v2", "t5-small"], "datasets": [{"label": "本周下载", "data": [253029336, 86493507, 65591890, 58408339, 52338347, 46311497, 37962240, 24215942, 24194833, 23417581], "borderColor": "#6366f1", "backgroundColor": "#6366f1", "borderWidth": 1}]};
+  new Chart(document.getElementById('hfTop10Chart'), {
+    type: 'bar',
+    data: hfTop10Data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0', callbacks: { label: function(ctx) { return ' ' + (ctx.parsed.x / 1000000).toFixed(1) + 'M'; } } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', callback: function(v) { return (v / 1000000).toFixed(0) + 'M'; } } },
+        y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块5b] OpenRouter 数据分析 -->
+<div>
+  <h2>🗺️ OpenRouter 数据分析</h2>
+  <div class="insight">
+    OpenRouter 作为多模型路由聚合平台，其调用量分布能直观反映中国模型与开源模型在全球开发者中的实际渗透率变化。本周中国模型份额 65.1%（下降），开源模型份额 22.1%（下降）。 中国模型份额从年初的 24.3% 暴增至本周的 65.1%，但增速曲线呈现"M 型"——3 月下旬曾触及 68% 峰值后回落，直到 6 月下旬才重新加速——<strong>增长逻辑正从"价格驱动"切换到"质量驱动"</strong>。开源模型份额的波动性（标准差约 12%）远大于中国模型，高度依赖头部开源模型（DeepSeek、Meta）的发布事件，而非持续性的社区使用。中国模型与开源模型份额的差值（43.0pp）反映中国模型中的闭源 API 付费占比，本周差值创近 6 周新高，可能意味着 DeepSeek 付费 API 采用率和阿里 Qwen-Max API 调用在同步加速。
+  </div>
+  <div style="font-size:11px;color:#94a3b8;line-height:1.5;padding:6px 10px;border-left:2px solid #10b981;background:rgba(16,185,129,0.06);border-radius:0 8px 8px 0;margin:4px 0 8px;">
+    <b>口径说明：</b>「开源占比」按<u>开源权重厂商集（DeepSeek / Meta / Mistral / Alibaba / Nousresearch / Arcee-Ai / Tngtech）</u>及 model_id 含 <code>:free</code> 的模型加总估算，属厂商维度的近似口径，并非逐模型的开源权重判定；且个别周存在同模型多版本快照重复计入，导致份额分母偏大，数值略被低估。趋势方向仍具参考意义。
+  </div>
+  <div class="chart-container" style="background:#1a1f2e;border-radius:12px;padding:16px;margin:16px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="color:#e2e8f0;font-size:13px;font-weight:500;">OpenRouter Model Share Trends</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b;">
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#ef4444;border-radius:2px;"></span>China model share</span>
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>Open source share</span>
+      </div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;"><canvas id="orCombinedChart"></canvas></div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:#64748b;"><span>数据来源：OpenRouter API</span><span>经 TransformerFacts 整理</span></div>
+  </div>
+  <script>
+  var orCombinedData = {"labels": ["01-05", "01-12", "01-19", "01-26", "02-02", "02-09", "02-16", "02-23", "03-02", "03-09", "03-16", "03-23", "03-30", "04-06", "04-13", "04-20", "04-27", "05-04", "05-11", "05-18", "05-25", "06-01", "06-08", "06-15", "06-22", "06-29", "07-06", "07-13", "07-20", "07-27", "08-03", "08-10", "08-17", "08-24", "08-31", "09-07"], "datasets": [{"label": "China model share", "data": [24.29, 22.17, 24.84, 27.31, 32.91, 43.25, 45.43, 37.27, 39.55, 35.47, 47.21, 56.58, 68.44, 46.64, 41.04, 40.34, 53.12, 54.07, 51.99, 47.19, 48.65, 54.31, 56.65, 57.86, 56.11, 58.66, 62.97, 64.44, 65.2, 67.18, 59.41, 63.07, 61.53, 38.36, 65.97, 65.11], "borderColor": "#ef4444", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false}, {"label": "Open source share", "data": [21.69, 21.96, 24.03, 12.21, 12.73, 10.72, 14.37, 18.9, 26.92, 27.52, 25.38, 21.24, 54.35, 36.25, 13.69, 13.65, 41.51, 46.75, 31.05, 35.85, 31.69, 33.89, 23.95, 27.53, 23.83, 27.76, 47.84, 49.67, 43.65, 40.69, 52.92, 45.74, 36.61, 24.6, 36.66, 22.06], "borderColor": "#10b981", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false}]};
+  new Chart(document.getElementById('orCombinedChart'), {
+    type: 'line',
+    data: orCombinedData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+          callbacks: { label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%'; } }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 10, padding: 8 }},
+        y: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', padding: 8, callback: function(v) { return v + '%'; } }, min: 0, max: 80 }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块5c] Vercel AI Gateway 实验室份额 -->
+<div>
+  <h2>🔬 Vercel AI Gateway 实验室份额（OpenAI / Anthropic / Google）</h2>
+  <div class="insight">
+    Vercel AI Gateway 是 Next.js 生态的原生 AI 路由层，其实验室（lab）调用分布反映前沿开发者的模型选择。<b>支出占比：</b>Anthropic 52.7%、OpenAI 21.0%、Google 7.0%。<b>Token 占比：</b>Anthropic 13.7%、OpenAI 11.8%、Google 5.6%。<strong>Anthropic 以最高单价模型占据支出榜首，但在 Token 量方面优势收窄</strong>——这说明 Anthropic 的调用者偏向高价值、低频率的复杂任务（如代码生成、长链推理），而低价模型（如 DeepSeek）主导了高频批量任务。该数据每周采集一次。
+  </div>
+  <div class="chart-row">
+    <div class="chart-card" style="margin:0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="color:#e2e8f0;font-size:13px;font-weight:500;">Spend Share</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b;">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#6366f1;border-radius:2px;"></span>OpenAI</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>Anthropic</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#f97316;border-radius:2px;"></span>Google</span>
+        </div>
+      </div>
+      <div style="position:relative;height:250px;padding-bottom:8px;"><canvas id="vercelSpendChart"></canvas></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;margin-top:4px;"><span>数据来源：Vercel AI</span><span>经 TransformerFacts 整理</span></div>
+    </div>
+    <div class="chart-card" style="margin:0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="color:#e2e8f0;font-size:13px;font-weight:500;">Token Share</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b;">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#6366f1;border-radius:2px;"></span>OpenAI</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>Anthropic</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#f97316;border-radius:2px;"></span>Google</span>
+        </div>
+      </div>
+      <div style="position:relative;height:250px;padding-bottom:8px;"><canvas id="vercelTokenChart"></canvas></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;margin-top:4px;"><span>数据来源：Vercel AI</span><span>经 TransformerFacts 整理</span></div>
+    </div>
+  </div>
+  <script>
+  var vercelSpendData = {"labels": ["08-10", "08-11", "08-12", "08-13", "08-14", "08-15", "08-16", "08-17", "08-18", "08-19", "08-20", "08-21", "08-22", "08-23", "08-24", "08-25", "08-26", "08-27", "08-28", "08-29", "08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05", "09-06", "09-07", "09-08"], "datasets": [{"label": "OpenAI", "data": [13.2669, 12.6334, 10.5975, 11.626, 8.3613, 10.5659, 9.0772, 9.6676, 12.0561, 9.842, 13.7209, 14.4665, 14.3122, 14.072, 14.3092, 13.9395, 14.7412, 17.6877, 15.6096, 17.8219, 15.9312, 15.063, 18.3797, 20.8715, 16.9215, 13.9243, 22.2637, 18.9727, 27.2445, 20.9631], "borderColor": "#6366f1", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}, {"label": "Anthropic", "data": [60.0416, 61.4303, 68.7474, 65.2244, 71.649, 64.6709, 60.6902, 72.9048, 65.8066, 70.6156, 57.5875, 62.595, 54.3355, 64.6413, 66.4948, 60.9899, 50.2979, 63.0533, 68.8978, 62.3077, 54.1416, 59.9673, 60.9297, 53.9107, 44.3387, 50.8145, 49.6827, 53.2223, 47.9037, 52.7248], "borderColor": "#10b981", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}, {"label": "Google", "data": [8.0991, 8.5418, 7.8718, 7.5062, 7.4578, 7.0704, 10.7262, 5.4989, 8.9565, 6.2192, 7.3771, 5.2767, 5.1626, 6.7211, 6.2898, 5.4217, 5.3487, 5.9965, 4.8941, 5.9221, 8.3581, 8.1846, 7.4418, 6.2891, 5.1371, 6.1502, 4.7443, 7.8711, 8.8084, 6.9837], "borderColor": "#f97316", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}]};
+  new Chart(document.getElementById('vercelSpendChart'), {
+    type: 'line', data: vercelSpendData,
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+          callbacks: { label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%'; } }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 8, padding: 6 }},
+        y: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', callback: function(v) { return v + '%'; }, padding: 6 }, min: 0 }
+      }
+    }
+  });
+  </script>
+  <script>
+  var vercelTokenData = {"labels": ["08-10", "08-11", "08-12", "08-13", "08-14", "08-15", "08-16", "08-17", "08-18", "08-19", "08-20", "08-21", "08-22", "08-23", "08-24", "08-25", "08-26", "08-27", "08-28", "08-29", "08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05", "09-06", "09-07", "09-08"], "datasets": [{"label": "OpenAI", "data": [20.0765, 15.5722, 16.5784, 18.2277, 17.2123, 20.1456, 15.5679, 19.3552, 15.5553, 15.42, 13.8548, 13.9057, 15.0365, 12.5144, 13.5739, 17.1185, 14.5843, 12.6502, 11.9434, 11.7967, 8.6379, 9.2534, 12.5037, 13.0365, 12.4337, 13.2747, 12.7031, 12.1028, 12.5304, 11.849], "borderColor": "#6366f1", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}, {"label": "Anthropic", "data": [19.367, 23.037, 25.1014, 20.4829, 25.0165, 18.082, 17.1055, 24.1133, 22.478, 24.5791, 18.8411, 22.8544, 18.9601, 18.3192, 21.2858, 20.5536, 18.1954, 19.2832, 18.0049, 14.2798, 12.3112, 14.6926, 18.5835, 16.014, 13.6109, 14.9458, 13.3315, 11.7488, 10.1574, 13.6867], "borderColor": "#10b981", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}, {"label": "Google", "data": [4.2762, 4.5983, 4.8148, 6.4451, 4.4325, 5.5716, 5.8573, 4.0703, 5.3274, 5.2347, 5.2403, 4.9615, 4.0224, 5.2106, 5.3974, 4.8237, 5.1474, 4.8088, 3.5378, 3.5832, 4.6001, 4.9148, 5.2895, 4.9719, 4.3257, 5.372, 4.03, 6.5986, 5.8718, 5.589], "borderColor": "#f97316", "backgroundColor": "transparent", "borderWidth": 2, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "spanGaps": true}]};
+  new Chart(document.getElementById('vercelTokenChart'), {
+    type: 'line', data: vercelTokenData,
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+          callbacks: { label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%'; } }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', maxTicksLimit: 8, padding: 6 }},
+        y: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', callback: function(v) { return v + '%'; }, padding: 6 }, min: 0 }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块5d] 云计算 RPO Growth -->
+<div>
+  <h2>☁️ 云计算 RPO Growth（MSFT / GOOG / AMZN）</h2>
+  <div class="insight">
+    三大云厂商 RPO（剩余履约义务，代表已签约待确认收入）合计 1694B，环比增长 +16.1%。<strong>Google Cloud 两年半增长 7 倍</strong>（74B→520B），远超 AWS(3.2×) 和 Azure(3.0×)，显示 AI 工作负载正加速涌向 GCP。2025Q4→2026Q1 是全周期最大跳跃点（AWS 从 244B→364B 跳升 +49%），恰好对应 GPT-5 和 Claude 4.0 发布后的大规模 GPU 集群签约。<strong>RPO 是云计算未来收入的先行指标——当前 1.7T 的 backlog 意味着 12-24 个月内三大云厂商将确认至少同等规模的 AI 相关收入。</strong>
+  </div>
+  <div class="chart-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="color:#e2e8f0;font-size:13px;font-weight:500;">Remaining Performance Obligations (RPO)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#64748b;">
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#6366f1;border-radius:2px;"></span>MSFT</span>
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#10b981;border-radius:2px;"></span>GOOG</span>
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#f97316;border-radius:2px;"></span>AMZN</span>
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:12px;height:2px;background:#f59e0b;border-radius:0;display:inline-block;vertical-align:middle;"></span>QoQ%</span>
+      </div>
+    </div>
+    <div style="position:relative;height:300px;padding-bottom:8px;"><canvas id="rpoChart"></canvas></div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:#64748b;"><span>数据来源：SEC filings · earning_metrics_quarterly</span><span>经 TransformerFacts 整理</span></div>
+  </div>
+  <script>
+  var rpoData = {"labels": ["23Q4", "24Q1", "24Q2", "24Q3", "24Q4", "25Q1", "25Q2", "25Q3", "25Q4", "26Q1", "26Q2"], "datasets": [{"label": "MSFT", "data": [229.0, 242.0, 275.0, 266.0, 304.0, 321.0, 375.0, 392.0, 625.0, 627.0, 678.0], "backgroundColor": "#6366f1", "stack": "rpo", "order": 2, "type": "bar"}, {"label": "GOOG", "data": [74.1, 72.5, 78.8, 86.8, 93.2, 92.4, 108.2, 157.7, 242.8, 467.6, 519.5], "backgroundColor": "#10b981", "stack": "rpo", "order": 2, "type": "bar"}, {"label": "AMZN", "data": [null, null, 156.6, 164.0, 177.0, 189.0, 195.0, 200.0, 244.0, 364.0, 496.0], "backgroundColor": "#f97316", "stack": "rpo", "order": 2, "type": "bar"}, {"label": "QoQ Growth", "data": [null, 3.8, 62.3, 1.3, 11.1, 4.9, 12.6, 10.5, 48.3, 31.2, 16.1], "borderColor": "#f59e0b", "backgroundColor": "transparent", "borderWidth": 2.5, "pointRadius": 3, "pointBackgroundColor": "#f59e0b", "tension": 0.3, "fill": false, "spanGaps": true, "yAxisID": "y1", "order": 1, "type": "line"}]};
+  new Chart(document.getElementById('rpoChart'), {
+    type: 'bar',
+    data: rpoData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+          callbacks: { 
+            label: function(ctx) { 
+              if (ctx.dataset.yAxisID === 'y1') {
+                if (ctx.raw === null) return null;
+                return ' QoQ Growth: ' + (ctx.raw >= 0 ? '+' : '') + ctx.raw.toFixed(1) + '%';
+              }
+              return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(0) + 'B';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(100,116,139,0.15)' }, ticks: { color: '#64748b', padding: 8 }, stacked: true },
+        y: { type: 'linear', position: 'left', stacked: true,
+              grid: { color: 'rgba(100,116,139,0.15)' },
+              ticks: { color: '#64748b', callback: function(v) { return v + 'B'; }, padding: 8 },
+              min: 0 },
+        y1: { type: 'linear', position: 'right',
+              grid: { drawOnChartArea: false },
+              ticks: { color: '#f59e0b', callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }, padding: 8 },
+              min: Math.min.apply(null, rpoData.datasets[3].data.filter(function(v){return v!=null;})) - 5 }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- [区块6] AI 项目增长排行榜 -->
+<div>
+  <h2>🚀 AI 项目增长排行榜（GitHub · 7日 Star 增量 Top 20）</h2>
+  <div class="insight">
+    本周 GitHub AI 项目 Star 增量呈现「infra 持续火热、应用层多点开花」格局。<strong>infra 层</strong>（向量数据库、Agent 框架、部署工具）贡献了最大增量绝对值，说明当下 AI 投资的 80% 仍在打地基；<strong>应用层</strong>（AI 写作、代码生成、客服机器人）增速快但单体量级小，代表边缘创新仍在快速试错。教育类 AI 项目连续两周出现，暗示 AI 原生教育产品正从概念验证进入早期产品化阶段。
+  </div>
+  <div class="insight">
+    <b>分类集中度分析——"其他"的高占比意味着什么？</b>"🔬 其他"分类汇聚了多个项目的最大 Star 增量，这种高集中度揭示了一个核心趋势：<strong>最具爆发力的项目往往不属于任何已知分类</strong>，它们在创造新赛道而非在现有赛道竞争。世界建模/模拟、AI 原生操作系统、AI 安全透明度是本周涌现的三大全新方向。<br><br><b>Web 数据采集/RAG 赛道——从工具到平台的跃迁：</b>firecrawl 和 caveman 作为 RAG 数据管道双雄持续火热，更值得关注的是垂直应用（如 AI 求职助手）将 Web 采集+RAG+Agent 组合成完整产品。<strong>RAG 技术正从"被集成"转向"独立产品"，产业链位置从上游向下游迁移。</strong><br><br><b>AI 硬件与语音 AI——两条被低估的暗线：</b>IoT/AIoT 开发者正从传统嵌入式开发转向 AI 嵌入式开发；语音 AI 开源项目（voicebox）的爆发呼应 OpenAI Advanced Voice Mode 2.0 发布——<strong>语音是唯一不需要屏幕的 AI 交互方式，是 AI 渗透 IoT、车载、可穿戴三大万亿市场的必要条件。</strong>
+  </div>
+  
+<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;margin-bottom:16px">
+  <p style="margin:0 0 8px;font-size:13px;color:#334155">
+    <strong>📊 分类分布：</strong>
+    <span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">🔬 其他</span> <span style="color:#22c55e;font-weight:600">+19,048⭐</span> &nbsp;&nbsp;<span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">🌐 Web 数据采集 & RAG</span> <span style="color:#22c55e;font-weight:600">+8,739⭐</span> &nbsp;&nbsp;<span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">🎙️ 语音 & 音频 AI</span> <span style="color:#22c55e;font-weight:600">+7,820⭐</span> &nbsp;&nbsp;<span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">🤖 Agentic AI 框架</span> <span style="color:#22c55e;font-weight:600">+4,080⭐</span> &nbsp;&nbsp;<span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">🏢 企业 AI 平台 & 工具</span> <span style="color:#22c55e;font-weight:600">+3,713⭐</span> &nbsp;&nbsp;<span style="background:#e0e7ff;color:#4338ca;padding:1px 8px;border-radius:10px;margin-right:4px">👤 AI 硬件 & 穿戴设备</span> <span style="color:#22c55e;font-weight:600">+1,281⭐</span>
+  </p>
+</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:8px">
+  <thead>
+    <tr style="background:#f1f5f9">
+      <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;font-size:12px">分类</th>
+      <th style="padding:6px 10px;text-align:center;border:1px solid #e2e8f0;font-size:12px">项目数</th>
+      <th style="padding:6px 10px;text-align:right;border:1px solid #e2e8f0;font-size:12px">7日⭐增量</th>
+      <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;font-size:12px">代表项目</th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr><td>🔬 其他</td><td style="text-align:center">11 个项目</td><td style="text-align:right;color:#22c55e"><b>+19,048</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>superpowers</code>, <code>herdr</code>, <code>openclaude</code>, <code>CL4R1T4S</code>, <code>OpenMontage</code>, <code>genoffice</code>, <code>openwhispr</code>, <code>watermarks-remover</code>, <code>hyperframes</code>, <code>prompts.chat</code>, <code>iFixAi</code></td></tr>
+    <tr><td>🌐 Web 数据采集 & RAG</td><td style="text-align:center">4 个项目</td><td style="text-align:right;color:#22c55e"><b>+8,739</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>firecrawl</code>, <code>ai-job-search</code>, <code>caveman</code>, <code>Scrapling</code></td></tr>
+    <tr><td>🎙️ 语音 & 音频 AI</td><td style="text-align:center">1 个项目</td><td style="text-align:right;color:#22c55e"><b>+7,820</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>VoiceStudio</code></td></tr>
+    <tr><td>🤖 Agentic AI 框架</td><td style="text-align:center">1 个项目</td><td style="text-align:right;color:#22c55e"><b>+4,080</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>hermes-agent</code></td></tr>
+    <tr><td>🏢 企业 AI 平台 & 工具</td><td style="text-align:center">2 个项目</td><td style="text-align:right;color:#22c55e"><b>+3,713</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>taste-skill</code>, <code>spec-kit</code></td></tr>
+    <tr><td>👤 AI 硬件 & 穿戴设备</td><td style="text-align:center">1 个项目</td><td style="text-align:right;color:#22c55e"><b>+1,281</b> ⭐</td><td style="font-size:12px;color:#6b7280"><code>ai-engineering-from-scratch</code></td></tr>
+  </tbody>
+</table>
+
+  <table>
+    <thead>
+      <tr><th style="width:25px">#</th><th>项目</th><th style="width:130px">分类</th><th style="width:80px">总Stars</th><th style="width:70px">7日+Stars</th><th style="width:70px">7日+Forks</th><th style="width:70px">爆发标签</th></tr>
+    </thead>
+    <tbody>
+          <tr>
+      <td style="text-align:center">1</td>
+      <td>
+        <a href="https://github.com/debpalash/VoiceStudio" target="_blank" style="color:#3b82f6">VoiceStudio</a>
+        <br><span style="font-size:10px;color:#9ca3af">debpalash</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🎙️ 语音 & 音频 AI</td>
+      <td style="text-align:right">20,007</td>
+      <td style="text-align:right;color:#22c55e">+7,820</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🔥 爆发</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">2</td>
+      <td>
+        <a href="https://github.com/NousResearch/hermes-agent" target="_blank" style="color:#3b82f6">hermes-agent</a>
+        <br><span style="font-size:10px;color:#9ca3af">NousResearch</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🤖 Agentic AI 框架</td>
+      <td style="text-align:right">242,651</td>
+      <td style="text-align:right;color:#22c55e">+4,080</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">3</td>
+      <td>
+        <a href="https://github.com/firecrawl/firecrawl" target="_blank" style="color:#3b82f6">firecrawl</a>
+        <br><span style="font-size:10px;color:#9ca3af">firecrawl</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🌐 Web 数据采集 & RAG</td>
+      <td style="text-align:right">177,328</td>
+      <td style="text-align:right;color:#22c55e">+2,806</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">4</td>
+      <td>
+        <a href="https://github.com/obra/superpowers" target="_blank" style="color:#3b82f6">superpowers</a>
+        <br><span style="font-size:10px;color:#9ca3af">obra</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">282,489</td>
+      <td style="text-align:right;color:#22c55e">+2,746</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">➡️ 微增</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">5</td>
+      <td>
+        <a href="https://github.com/MadsLorentzen/ai-job-search" target="_blank" style="color:#3b82f6">ai-job-search</a>
+        <br><span style="font-size:10px;color:#9ca3af">MadsLorentzen</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🌐 Web 数据采集 & RAG</td>
+      <td style="text-align:right">41,076</td>
+      <td style="text-align:right;color:#22c55e">+2,454</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🚀 强劲</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">6</td>
+      <td>
+        <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" style="color:#3b82f6">taste-skill</a>
+        <br><span style="font-size:10px;color:#9ca3af">Leonxlnx</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🏢 企业 AI 平台 & 工具</td>
+      <td style="text-align:right">84,925</td>
+      <td style="text-align:right;color:#22c55e">+2,349</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">7</td>
+      <td>
+        <a href="https://github.com/herdrdev/herdr" target="_blank" style="color:#3b82f6">herdr</a>
+        <br><span style="font-size:10px;color:#9ca3af">herdrdev</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">35,874</td>
+      <td style="text-align:right;color:#22c55e">+2,136</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🚀 强劲</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">8</td>
+      <td>
+        <a href="https://github.com/JuliusBrussee/caveman" target="_blank" style="color:#3b82f6">caveman</a>
+        <br><span style="font-size:10px;color:#9ca3af">JuliusBrussee</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🌐 Web 数据采集 & RAG</td>
+      <td style="text-align:right">103,971</td>
+      <td style="text-align:right;color:#22c55e">+2,063</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">9</td>
+      <td>
+        <a href="https://github.com/Gitlawb/openclaude" target="_blank" style="color:#3b82f6">openclaude</a>
+        <br><span style="font-size:10px;color:#9ca3af">Gitlawb</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">32,858</td>
+      <td style="text-align:right;color:#22c55e">+1,955</td>
+      <td style="text-align:right;color:#94a3b8">+137</td>
+      <td style="font-size:12px">🚀 强劲</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">10</td>
+      <td>
+        <a href="https://github.com/elder-plinius/CL4R1T4S" target="_blank" style="color:#3b82f6">CL4R1T4S</a>
+        <br><span style="font-size:10px;color:#9ca3af">elder-plinius</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">49,099</td>
+      <td style="text-align:right;color:#22c55e">+1,874</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">11</td>
+      <td>
+        <a href="https://github.com/calesthio/OpenMontage" target="_blank" style="color:#3b82f6">OpenMontage</a>
+        <br><span style="font-size:10px;color:#9ca3af">calesthio</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">56,438</td>
+      <td style="text-align:right;color:#22c55e">+1,726</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">12</td>
+      <td>
+        <a href="https://github.com/genspark-ai/genoffice" target="_blank" style="color:#3b82f6">genoffice</a>
+        <br><span style="font-size:10px;color:#9ca3af">genspark-ai</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">5,731</td>
+      <td style="text-align:right;color:#22c55e">+1,710</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🔥 爆发</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">13</td>
+      <td>
+        <a href="https://github.com/OpenWhispr/openwhispr" target="_blank" style="color:#3b82f6">openwhispr</a>
+        <br><span style="font-size:10px;color:#9ca3af">OpenWhispr</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">7,503</td>
+      <td style="text-align:right;color:#22c55e">+1,622</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🔥 爆发</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">14</td>
+      <td>
+        <a href="https://github.com/guillaumemeyer/watermarks-remover" target="_blank" style="color:#3b82f6">watermarks-remover</a>
+        <br><span style="font-size:10px;color:#9ca3af">guillaumemeyer</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">21,042</td>
+      <td style="text-align:right;color:#22c55e">+1,521</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🚀 强劲</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">15</td>
+      <td>
+        <a href="https://github.com/D4Vinci/Scrapling" target="_blank" style="color:#3b82f6">Scrapling</a>
+        <br><span style="font-size:10px;color:#9ca3af">D4Vinci</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🌐 Web 数据采集 & RAG</td>
+      <td style="text-align:right">78,822</td>
+      <td style="text-align:right;color:#22c55e">+1,416</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">16</td>
+      <td>
+        <a href="https://github.com/github/spec-kit" target="_blank" style="color:#3b82f6">spec-kit</a>
+        <br><span style="font-size:10px;color:#9ca3af">github</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🏢 企业 AI 平台 & 工具</td>
+      <td style="text-align:right">133,752</td>
+      <td style="text-align:right;color:#22c55e">+1,364</td>
+      <td style="text-align:right;color:#94a3b8">+121</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">17</td>
+      <td>
+        <a href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" style="color:#3b82f6">ai-engineering-from-scratch</a>
+        <br><span style="font-size:10px;color:#9ca3af">rohitg00</span>
+      </td>
+      <td style="text-align:center;font-size:12px">👤 AI 硬件 & 穿戴设备</td>
+      <td style="text-align:right">52,639</td>
+      <td style="text-align:right;color:#22c55e">+1,281</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">18</td>
+      <td>
+        <a href="https://github.com/heygen-com/hyperframes" target="_blank" style="color:#3b82f6">hyperframes</a>
+        <br><span style="font-size:10px;color:#9ca3af">heygen-com</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">44,483</td>
+      <td style="text-align:right;color:#22c55e">+1,272</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">📈 稳健</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">19</td>
+      <td>
+        <a href="https://github.com/f/prompts.chat" target="_blank" style="color:#3b82f6">prompts.chat</a>
+        <br><span style="font-size:10px;color:#9ca3af">f</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">169,525</td>
+      <td style="text-align:right;color:#22c55e">+1,263</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">➡️ 微增</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">20</td>
+      <td>
+        <a href="https://github.com/ifixai-ai/iFixAi" target="_blank" style="color:#3b82f6">iFixAi</a>
+        <br><span style="font-size:10px;color:#9ca3af">ifixai-ai</span>
+      </td>
+      <td style="text-align:center;font-size:12px">🔬 其他</td>
+      <td style="text-align:right">13,084</td>
+      <td style="text-align:right;color:#22c55e">+1,223</td>
+      <td style="text-align:right;color:#94a3b8">+0</td>
+      <td style="font-size:12px">🚀 强劲</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- [常驻板块] 开源生态焦点：Agent Harness 双雄（OpenAI Codex Harness vs DeepSeek Harness） -->
+<div>
+  
+<div style="margin-top:24px;padding:18px 20px;border:1px solid #c7d2fe;border-left:4px solid #6366f1;border-radius:10px;background:#f5f7ff">
+  <h2 style="margin:0 0 6px;font-size:20px;color:#4338ca">🔧 开源生态焦点：Agent Harness 双雄 — OpenAI Codex Harness vs DeepSeek Harness</h2>
+  <p style="margin:0 0 12px;font-size:13px;color:#475569">一周之内（DeepSeek 08-13、OpenAI 08-19）两大实验室先后将自家 <strong>Agent 执行框架（Harness）</strong> 完全开源。竞争焦点正从「模型权重 / 价格」上移到「Agent 运行时」——谁成为 Agent 产品的默认 Harness，谁就掌握应用层入口与数据流。以下数据截至 2026-09-08（GitHub 实时，失败时回退快照）。</p>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:14px">
+    <thead>
+      <tr style="background:#eef2ff">
+        <th style="padding:7px 10px;text-align:left;border:1px solid #dbeafe;font-size:12px;color:#4338ca">维度</th>
+        <th style="padding:7px 10px;text-align:left;border:1px solid #dbeafe;font-size:12px;color:#10b981">OpenAI Codex Harness</th>
+        <th style="padding:7px 10px;text-align:left;border:1px solid #dbeafe;font-size:12px;color:#3b82f6">DeepSeek Harness（dsh）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">仓库</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px"><code>openai/codex</code></td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px"><code>deepseek-ai/deepseek-harness</code></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">开源日期</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">2026-08-19（Rust 内核 + app-server 完全开源）</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">2026-08-13（v0.1 开发者预览）</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">协议</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px"><span style="background:#dcfce7;color:#15803d;padding:1px 8px;border-radius:10px;font-size:11px">Apache-2.0</span></td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px"><span style="background:#dbeafe;color:#1d4ed8;padding:1px 8px;border-radius:10px;font-size:11px">MIT</span></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">技术栈</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">Rust 核心（codex-rs）+ TypeScript SDK</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">TypeScript（Cordis 元框架）</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">Stars</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;font-weight:600;color:#10b981">122,417</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;font-weight:600;color:#3b82f6">215,759</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">Forks</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">18,809</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">25,468</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">核心理念</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">「把 Agent Loop 嵌入你的产品」<br><span style="color:#64748b;font-size:11px">app-server 用 JSON-RPC 让开发者把 Agent 循环嵌入既有仪表盘 / CRM / 工单，不强制聊天界面</span></td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">「Everything is a Plugin」<br><span style="color:#64748b;font-size:11px">模型 / 工具 / 技能 / UI 全是插件，可重组、可追溯（append-only Trajectory 日志），模型无关、自托管优先</span></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px;color:#64748b">集成形态</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">codex exec（CI/批处理）· Codex SDK（TS/Py）· codex app-server（持久会话）</td>
+        <td style="padding:6px 10px;border:1px solid #e2e8f0;font-size:12px">Standard / Code / Minimal / Creator 四种执行模式，支持模型自改装</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#334155">📊 Star / Fork 体量对比</p>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:14px">
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:12px;color:#64748b;margin-bottom:2px">Stars（215,759 为基准 100%）</div>
+      <div style="background:#eef2f7;border-radius:6px;height:18px;width:100%;position:relative;margin:3px 0"><div style="background:#10b981;height:18px;border-radius:6px;width:56.7%"></div><span style="position:absolute;left:8px;top:0;line-height:18px;font-size:11px;color:#0f172a;font-weight:600">122,417</span></div>
+      <div style="background:#eef2f7;border-radius:6px;height:18px;width:100%;position:relative;margin:3px 0"><div style="background:#3b82f6;height:18px;border-radius:6px;width:100.0%"></div><span style="position:absolute;left:8px;top:0;line-height:18px;font-size:11px;color:#0f172a;font-weight:600">215,759</span></div>
+    </div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:12px;color:#64748b;margin-bottom:2px">Forks（25,468 为基准 100%）</div>
+      <div style="background:#eef2f7;border-radius:6px;height:18px;width:100%;position:relative;margin:3px 0"><div style="background:#10b981;height:18px;border-radius:6px;width:73.9%"></div><span style="position:absolute;left:8px;top:0;line-height:18px;font-size:11px;color:#0f172a;font-weight:600">18,809</span></div>
+      <div style="background:#eef2f7;border-radius:6px;height:18px;width:100%;position:relative;margin:3px 0"><div style="background:#3b82f6;height:18px;border-radius:6px;width:100.0%"></div><span style="position:absolute;left:8px;top:0;line-height:18px;font-size:11px;color:#0f172a;font-weight:600">25,468</span></div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:#eef2ff;border-color:#c7d2fe">
+    <p style="margin:0 0 6px;font-size:13px;color:#3730a3"><strong>🔍 关键解读</strong></p>
+    <ol style="margin:0;padding-left:18px;font-size:12.5px;color:#334155;line-height:1.7">
+      <li><strong>增速反差：</strong>DeepSeek Harness 仅用约 14 天冲到 215,759 Star，已反超 Codex 的 122,417。但需注意 Codex 仓库更早（2025-04 的 Codex CLI），Harness 内核是 08-19 才完全开源——若只看开源后增量，DeepSeek 的 Star 增速（约 14k/日）显著领先，反映「MIT + 全插件化」对社区心智的强吸引力。</li>
+      <li><strong>哲学分野：</strong>OpenAI 把 Harness 当作<strong>平台层</strong>——开发者保留自有 UI，app-server 负责 Agent Loop、沙箱与审批；DeepSeek 走<strong>元框架</strong>路线，用 Cordis 把一切抽象为可重组插件，并强调自托管与省 Token。前者抢企业嵌入，后者抢开发者自由度。</li>
+      <li><strong>模型层互通：</strong>Codex Harness 明确支持切换到 DeepSeek 等任意 OpenAI 兼容端点。两大生态在<strong>模型层互通</strong>，真正竞争集中在执行层、工具编排与可观测性。</li>
+      <li><strong>「Harness &gt; 模型」的实证：</strong>OpenAI 披露 ARC-AGI-3 上，同一模型 GPT-5.6 Sol 仅靠 Harness 优化（保留推理轨迹 + 上下文压缩）得分 13.3% → 38.3%，输出 token 降 6 倍——证明执行框架对效果的影响可超过一次模型升级。</li>
+      <li><strong>战略含义：</strong>模型实验室的竞争从「参数 / 权重 / 价格」延伸到「Agent 运行时」。DeepSeek 借 MIT 抢社区，OpenAI 借 Apache-2.0 + 生产级 Rust 内核抢企业；两者都把模型封装进可控、可审批、可持久化的 Harness，验证了行业从「卖模型」到「卖运行时」的范式迁移。</li>
+    </ol>
+    <p style="margin:8px 0 0;font-size:11.5px;color:#64748b">⚠️ 注：两仓库尚未进入我们 GitHub 7日 Star 增量 Top20 的爬虫追踪（该榜单偏重模型 / Agent 应用仓）；建议下周的追踪将 <code>openai/codex</code> 与 <code>deepseek-ai/deepseek-harness</code> 纳入，以量化 Harness 生态的真实增量。</p>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  TransformerFacts AI 生态周报 · 数据每日更新 · 每周二自动发布
+</div>
+</body>
+</html>
