@@ -44,6 +44,19 @@
       gap: 16px;
       padding: 40px 0 28px;
     }
+    .site-header .back-link {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .site-header .back-link:hover { color: var(--accent); }
     .site-header img {
       width: 64px;
       height: 64px;
@@ -61,35 +74,6 @@
       color: var(--text-muted);
       margin-top: 4px;
       letter-spacing: 0.04em;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, rgba(99,102,241,0.10), rgba(139,92,246,0.06));
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 28px 32px;
-      margin-bottom: 40px;
-    }
-    .hero p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      max-width: 760px;
-    }
-    .hero .badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .hero .badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      color: var(--text-secondary);
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 100px;
-      padding: 6px 14px;
     }
 
     /* ── 区块标题 ── */
@@ -201,6 +185,16 @@
       color: var(--accent);
       min-width: 96px;
     }
+    .report-item .ri-new {
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 100px;
+      padding: 2px 9px;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
     .report-item .ri-title {
       font-size: 14.5px;
       font-weight: 600;
@@ -238,7 +232,8 @@
     }
 
     @media (max-width: 640px) {
-      .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .site-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .site-header .back-link { margin-left: 0; }
       iframe.report-embed { height: 1100px; }
       .report-item { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
@@ -254,22 +249,8 @@
       <h1>TransformerFacts · TF数据官</h1>
       <div class="sub">AI 产业先行指标监测 + 投研支持框架</div>
     </div>
+    <a class="back-link" href="https://github.com/xiaomin49/TransformerFacts/" target="_blank" rel="noopener">← 返回 GitHub 仓库</a>
   </header>
-
-  <!-- Hero 简介 -->
-  <section class="hero">
-    <p>
-      <strong>TransformerFacts（简称 TF数据官）</strong> 是一套聚焦 AI 产业真实落地节奏的先行指标监测与深度研究体系。
-      它不预测股价，而是用<strong>可量化、可回溯、可对比</strong>的先行指标，识别 AI 产业的周期拐点、供需结构变化、
-      算力通胀风险与就业结构变迁，为产业研究、投资决策与技术落地提供客观、前置、可落地的数据支撑。
-    </p>
-    <div class="badges">
-      <span class="badge">数据：Supabase</span>
-      <span class="badge">技术栈：Node + Python</span>
-      <span class="badge">指数：ADMI · EAPI · AADI</span>
-      <span class="badge">周报：每周自动生成</span>
-    </div>
-  </section>
 
   <!-- EAPI 指数 -->
   <section class="section" id="eapi">
@@ -293,10 +274,21 @@
   <!-- 历史报告 -->
   <section class="section" id="archive">
     <div class="section-head">
-      <h2>往期周报</h2>
-      <span class="tag">Archive</span>
+      <h2>AI 应用生态周报</h2>
+      <span class="tag">Reports</span>
     </div>
     <div class="report-list">
+      <a class="report-item" href="reports/ai-weekly-2026-09-14.html">
+        <div class="ri-main">
+          <div class="ri-date">2026-09-14</div>
+          <span class="ri-new">最新</span>
+          <div>
+            <div class="ri-title">AI 应用生态周报</div>
+            <div class="ri-meta">reports/ai-weekly-2026-09-14.html</div>
+          </div>
+        </div>
+        <div class="ri-arrow">→</div>
+      </a>
       <a class="report-item" href="reports/ai-weekly-2026-09-07.html">
         <div class="ri-main">
           <div class="ri-date">2026-09-07</div>
@@ -333,16 +325,6 @@
           <div>
             <div class="ri-title">AI 应用生态周报</div>
             <div class="ri-meta">reports/ai-weekly-2026-08-17.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-08-10.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-08-10</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-08-10.html</div>
           </div>
         </div>
         <div class="ri-arrow">→</div>
