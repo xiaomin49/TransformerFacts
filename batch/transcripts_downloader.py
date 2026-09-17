@@ -65,14 +65,20 @@ ENV_FILE = os.path.join(ROOT_DIR, ".env")
 
 
 def load_env() -> dict:
+    """读取 .env。优先用脚本本地 .env（ENV_FILE），缺失时回退到 ~/.env（用户统一密钥库）。"""
     env = {}
-    if os.path.exists(ENV_FILE):
-        with open(ENV_FILE, "r", encoding="utf-8") as f:
+    candidates = [ENV_FILE, os.path.join(os.path.expanduser("~"), ".env")]
+    for path in candidates:
+        if not path or not os.path.exists(path):
+            continue
+        with open(path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
                     key, val = line.split("=", 1)
-                    env[key.strip()] = val.strip()
+                    key, val = key.strip(), val.strip()
+                    if key not in env:  # 本地 .env 优先，已存在的 key 不覆盖
+                        env[key] = val
     return env
 
 
@@ -82,7 +88,8 @@ _env = load_env()
 # ── 公司配置（可改）─────────────────────────────────────────────────────────
 # Ticker -> 公司名
 TICKERS: dict[str, str] = {
-    "ORCL": "Oracle Corp",
+    # "ORCL": "Oracle Corp",
+    "PLTR": "Palantir Technologies Inc.",
     # "SNOW": "Snowflake Inc.",
     #"MSFT": "Microsoft Corp",
     #"AMZN": "Amazon.com Inc.",
@@ -100,10 +107,9 @@ TICKERS: dict[str, str] = {
 }
 
 # ── 全局配置（可改）─────────────────────────────────────────────────────────
-# 输出目录：与 sec_filings_downloader.py 一致，用 Path.home()/"data"/"transcripts"。
-# 在 WSL 环境下 Path.home() == /home/xiaom，即 \\wsl$\Ubuntu\home\xiaom\data\transcripts。
-OUTPUT_DIR = Path.home() / "data" / "transcripts"
-START_DATE = "2026-07-01"     # YYYY-MM-DD，空字符串表示不限制
+# 输出目录：与 sec_filings_downloader.py 一致，输出到 inbox/{ticker}/。
+OUTPUT_DIR = Path(r"C:\Users\xiaom\Desktop\ai-workspace\ai-workspace-hub\inbox")  # 输出到 inbox/{ticker}/
+START_DATE = "2025-09-01"     # YYYY-MM-DD，空字符串表示不限制（PLTR 测试：覆盖最近 4 个季度）
 END_DATE = ""                 # YYYY-MM-DD，空字符串表示今天
 REQUEST_DELAY = 2.0           # roic 免费层严格限速，2s/请求更稳妥；Tavily 同理
 # 同一财报日保留的最小"完整"长度阈值：低于此值视为片段，允许被更长的源覆盖
@@ -544,7 +550,9 @@ def save_transcript(company_name: str, ticker: str, url: str,
                     start: date, end: date) -> Optional[Path]:
     if not date_in_window(call_date, start, end):
         return None
-    out_path = OUTPUT_DIR / f"{company_name}_{call_date.isoformat()}_transcript.txt"
+    out_dir = OUTPUT_DIR / ticker
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{company_name}_{call_date.isoformat()}_transcript.txt"
     if out_path.exists():
         old_len = out_path.stat().st_size
         if old_len >= len(content):
@@ -573,7 +581,7 @@ def save_transcript(company_name: str, ticker: str, url: str,
 
 def process_ticker(ticker: str, company_name: str, start: date, end: date) -> int:
     log.info("═══ 处理 %s (%s) ═══", ticker, company_name)
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    (OUTPUT_DIR / ticker).mkdir(parents=True, exist_ok=True)
 
     # 1) roic.ai 优先（干净结构化文本）
     results: List[Tuple[date, str, str, int]] = []  # (date, content, url, clean_flag)
