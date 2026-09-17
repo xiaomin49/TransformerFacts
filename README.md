@@ -63,7 +63,7 @@
 | **AI 项目增长排行榜** | GitHub 7 日 Star 增量 Top 20 |
 | **常驻板块 · 开源生态焦点** | Agent Harness 双雄（如 OpenAI Codex Harness vs DeepSeek Harness）深度追踪 |
 
-报告样例见：https://transformerfacts.substack.com/ （自 2026-06 起持续产出）
+报告见：https://xiaomin49.github.io/TransformerFacts/index.html （自 2026-06 起持续产出）
 
 ### 1.3 ROIC 模型与测算
 
