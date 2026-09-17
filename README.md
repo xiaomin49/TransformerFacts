@@ -1,4 +1,8 @@
-# TransformerFacts · TF数据官
+<p align="center">
+  <img src="transformerfacts_logo.svg" alt="TransformerFacts" width="160" height="160">
+</p>
+
+<h1 align="center">TransformerFacts · TF数据官</h1>
 
 > AI 产业先行指标监测 + 投研支持框架 —— 用一线研发视角和量化数据，追踪 Transformer / 大模型技术从研发、生态、商业落地到社会渗透的全链路演进。
 

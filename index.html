@@ -104,53 +104,6 @@
       padding: 4px 12px;
     }
 
-    /* ── EAPI 强调卡 ── */
-    .eapi-card {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      background: rgba(61,184,162,0.07);
-      border: 1px solid rgba(61,184,162,0.28);
-      border-radius: var(--radius);
-      padding: 24px 28px;
-    }
-    .eapi-card .ec-text h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--eapi);
-      margin-bottom: 6px;
-    }
-    .eapi-card .ec-text p {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      max-width: 620px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: 100px;
-      padding: 11px 22px;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .btn-accent {
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    }
-    .btn-accent:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn-eapi {
-      color: var(--eapi);
-      background: rgba(61,184,162,0.12);
-      border: 1px solid rgba(61,184,162,0.4);
-    }
-    .btn-eapi:hover { background: rgba(61,184,162,0.2); }
-
     /* ── 历史报告列表 ── */
     .report-list {
       display: grid;
@@ -251,25 +204,6 @@
     </div>
     <a class="back-link" href="https://github.com/xiaomin49/TransformerFacts/" target="_blank" rel="noopener">← 返回 GitHub 仓库</a>
   </header>
-
-  <!-- EAPI 指数 -->
-  <section class="section" id="eapi">
-    <div class="section-head">
-      <h2>EAPI 指数</h2>
-      <span class="tag">Index</span>
-    </div>
-    <div class="eapi-card">
-      <div class="ec-text">
-        <h3>EAPI · 企业 AI 渗透度指数</h3>
-        <p>
-          EAPI（Enterprise AI Penetration Index）追踪企业在实际业务中引入 AI 工具的渗透速度，采用 npm 六包体系：
-          AI SDK 三包（OpenAI / Anthropic / Google）权重 60%，企业工具三包（dd-trace / snowflake-sdk / Atlassian Triggers）权重 40%，
-          几何加权合成，捕捉企业从"试用模型"到"深度集成"的完整渗透路径。
-        </p>
-      </div>
-      <a class="btn btn-eapi" href="ai-indices-methodology.html">查看指数方法论 →</a>
-    </div>
-  </section>
 
   <!-- 历史报告 -->
   <section class="section" id="archive">
