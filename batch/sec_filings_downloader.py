@@ -51,12 +51,12 @@ log = logging.getLogger("sec_filings")
 # CIK 格式：10 位数字，不足前面补 0
 COMPANIES: dict[str, dict] = {
     # "MSFT": { "name": "Microsoft Corp", "cik": "0000789019"},
-	# "GOOG": { "name": "Alphabet Inc.", "cik": "0001652044"},
+	"SHOP": { "name": "Shopify Inc.", "cik": "0001594805"},
    	# "META": { "name": "META Platforms, Inc.", "cik": "0001326801"},
 	# "AMZN": { "name": "AMAZON COM,Inc.", "cik": "0001018724"},
 	# "MCD": { "name": "MCDONALDS CORP", "cik": "0000063908"},
-	 # "ORCL": { "name": "oracle corp", "cik": "0001341439"},
-    "PLTR": { "name": "Palantir Technologies Inc.", "cik": "0001321655"},
+	# "ORCL": { "name": "oracle corp", "cik": "0001341439"},
+    # "PLTR": { "name": "Palantir Technologies Inc.", "cik": "0001321655"},
     # "AAPL": {"name": "Apple Inc", "cik": "0000320193"},
 	# "NBIS": {"name": "Nebius Group N.V.", "cik": "0001513845"},
 	# "CRWV": {"name": "CoreWeave, Inc.", "cik": "0001769628"},
@@ -68,7 +68,7 @@ COMPANIES: dict[str, dict] = {
 
 # ── 全局配置 ─────────────────────────────────────────────────────────────────
 OUTPUT_DIR = Path(r"C:\Users\xiaom\Desktop\ai-workspace\ai-workspace-hub\inbox")  # 输出到 inbox/{ticker}/（{ticker} 子目录由 ensure_company_dir 创建）
-START_DATE = "2025-09-01"   # YYYY-MM-DD，空字符串表示不限制（PLTR 测试：覆盖最近 4 个季度）
+START_DATE = "2025-09-01"   # YYYY-MM-DD，空字符串表示不限制（SHOP：覆盖最近 4 个季度 Q3'25~Q2'26）
 END_DATE = ""     # YYYY-MM-DD，空字符串表示不限制（默认取今天）
 REQUEST_DELAY = 0.2
 USER_AGENT = "Mozilla/5.0 (compatible; sec_filings_script/1.0; research@example.com)"

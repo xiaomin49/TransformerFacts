@@ -89,7 +89,7 @@ _env = load_env()
 # Ticker -> 公司名
 TICKERS: dict[str, str] = {
     # "ORCL": "Oracle Corp",
-    "PLTR": "Palantir Technologies Inc.",
+    "SHOP": "Shopify Inc.",
     # "SNOW": "Snowflake Inc.",
     #"MSFT": "Microsoft Corp",
     #"AMZN": "Amazon.com Inc.",
@@ -109,7 +109,7 @@ TICKERS: dict[str, str] = {
 # ── 全局配置（可改）─────────────────────────────────────────────────────────
 # 输出目录：与 sec_filings_downloader.py 一致，输出到 inbox/{ticker}/。
 OUTPUT_DIR = Path(r"C:\Users\xiaom\Desktop\ai-workspace\ai-workspace-hub\inbox")  # 输出到 inbox/{ticker}/
-START_DATE = "2025-09-01"     # YYYY-MM-DD，空字符串表示不限制（PLTR 测试：覆盖最近 4 个季度）
+START_DATE = "2026-01-01"     # YYYY-MM-DD，空字符串表示不限制（SHOP：最近 2 个季度 Q1'26~Q2'26；roic 免费层上限 2 季）
 END_DATE = ""                 # YYYY-MM-DD，空字符串表示今天
 REQUEST_DELAY = 2.0           # roic 免费层严格限速，2s/请求更稳妥；Tavily 同理
 # 同一财报日保留的最小"完整"长度阈值：低于此值视为片段，允许被更长的源覆盖
