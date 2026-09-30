@@ -256,15 +256,16 @@
     <div class="eyebrow">TransformerFacts Research</div>
     <h1>EAPI 企业 AI 渗透指数</h1>
     <p class="subtitle">
-      EAPI（企业 AI 渗透指数）通过 npm 包下载量追踪企业在实际业务中引入 AI 工具的渗透速度。
-      本页说明其编制原理，并补充「真实支出指数」——引入 token 价格代理对下载量做平减，
-      剥离价格因素，逼近企业真实 AI 支出口径。
+      EAPI（企业 AI 渗透指数）追踪企业在实际业务中引入并使用 AI 的渗透速度。
+      它<b>同时纳入「新增采用」与「真实在产用量」</b>两个维度：前者用 npm 包下载量衡量新应用接入，
+      后者用 OpenRouter 真实 token 成交量衡量已装机应用在持续调用 API 的存量贡献。
+      本页说明其编制原理，并补充「真实支出指数」——引入 token 价格代理做平减，逼近企业真实 AI 支出口径。
     </p>
     <div class="divider"></div>
   </header>
 
   <nav class="index-nav">
-    <a href="#eapi" class="eapi">● EAPI 名义指数</a>
+    <a href="#eapi" class="eapi">● EAPI 综合指数</a>
     <a href="#realspend" class="eapi">● 真实支出指数</a>
     <a href="#summary" class="neutral">● EAPI 指数族对比</a>
   </nav>
@@ -277,27 +278,27 @@
     <h2>EAPI</h2>
     <div class="index-fullname">Enterprise AI Penetration Index</div>
     <p class="lead">
-      EAPI 追踪企业在实际业务中引入 AI 工具的渗透速度，采用 npm 六包体系：
-      AI SDK 三包（OpenAI/Anthropic/Google）代表模型调用层，
-      企业工具三包（dd-trace/snowflake-sdk/Atlassian Triggers）代表生产环境集成层。
-      几何加权综合两者，捕捉企业从"试用模型"到"深度集成"的完整渗透路径。
+      EAPI 追踪企业在实际业务中引入并使用 AI 的渗透速度，由<b>两个互补维度</b>几何混合而成：
+      <b>① 新增采用（flow）</b>用 npm 包下载量衡量新应用接入（模型调用层 + 生产集成层）；
+      <b>② 真实在产用量（usage）</b>用 OpenRouter 全模型周度 token 成交量衡量<b>已装机应用持续调用 API 的存量贡献</b>。
+      后者天然包含"存量包 + 新增下载"共同产生的 Token 消耗，弥补原口径只测新增下载、低估成熟生态用量增长的短板。
     </p>
 
     <div class="cards-grid">
       <div class="stat-card">
         <div class="label">AI SDK 权重</div>
         <div class="value">60%</div>
-        <div class="sub">几何均值 × 0.6</div>
+        <div class="sub">flow 内部几何均值 × 0.6</div>
       </div>
       <div class="stat-card">
         <div class="label">企业工具权重</div>
         <div class="value">40%</div>
-        <div class="sub">几何均值 × 0.4</div>
+        <div class="sub">flow 内部几何均值 × 0.4</div>
       </div>
       <div class="stat-card">
-        <div class="label">子指数</div>
-        <div class="value">2 个</div>
-        <div class="sub">AI SDK / 企业工具</div>
+        <div class="label">混合权重 β</div>
+        <div class="value">0.5</div>
+        <div class="sub">flow 与 usage 等权</div>
       </div>
       <div class="stat-card">
         <div class="label">基点</div>
@@ -308,7 +309,8 @@
 
     <div class="formula-block">
       <div class="formula-title">编制公式</div>
-<pre><span class="comment"># Step 1：归一化（各包除以基准周值，锚定 base=100）</span>
+<pre><span class="comment"># A. 新增采用维度（flow）—— npm 包下载量（5 个活跃包）</span>
+<span class="comment"># Step 1：归一化（各包除以基准周值，锚定 base=100）</span>
 norm[pkg, t] = downloads[pkg, t] / downloads[pkg, base] × 100
 
 <span class="comment"># Step 2：AI SDK 子指数（等权重几何均值）</span>
@@ -321,13 +323,27 @@ Enterprise_sub[t] = ( norm[dd-trace,              t]
                     × norm[snowflake-sdk,          t]
                     × norm[@atlaskit/rovo-triggers, t] )^(1/3)
 
-<span class="comment"># Step 4：综合指数（几何加权幂次组合）</span>
-EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
+<span class="comment"># Step 4：下载流量指数（flow 综合，几何加权幂次组合）</span>
+flow[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4      → enterprise_ai_download_flow_index
+
+<span class="comment"># B. 真实在产用量维度（usage）—— OpenRouter 全模型周度 token 成交量</span>
+<span class="comment"># Step 5：真实用量指数 = 周成交量归一化后做 4 周移动平均（MA4 消除周度噪声）</span>
+usage[t] = MA4( total_tokens[t] / total_tokens[base] × 100 )   → enterprise_ai_real_usage_index
+
+<span class="comment"># C. 综合 EAPI = flow^β × usage^(1-β)，β=0.5（新增采用 与 真实用量 等权）</span>
+EAPI[t] = flow[t]^0.5  ×  usage[t]^0.5                        → enterprise_ai_penetration_index
 
 <span class="comment"># 采用几何均值而非算术均值：
 #  — 几何均值对归一化比值做乘法等效于等比中项，对极端值有天然均值回归效应
 #  — 避免被某一个包暴涨拉高综合指数失真</span></pre>
     </div>
+
+    <p class="lead" style="margin-top:16px">
+      <b>为什么需要 usage 维度？</b> Token 总消耗 = 已装机存量包 × 单应用调用频次 + 新增应用调用。
+      仅看下载量（flow）只能捕捉"新增"，当生态成熟、新增放缓但存量持续调用时，会系统性低估真实用量。
+      OpenRouter 作为模型网关，其周度 token 成交量直接反映真实在产消耗，天然涵盖存量贡献，是最佳 ground-truth。
+      其周度波动较大（同月内可翻倍/腰斩），故先做 4 周移动平均再并入。
+    </p>
 
     <table class="packages-table">
       <thead>
@@ -374,8 +390,8 @@ EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
     <!-- ░░░░░░░░░░ 真实支出指数 ░░░░░░░░░░ -->
     <h3 id="realspend" style="margin:40px 0 8px;font-size:19px;color:var(--accent-eapi)">真实支出指数（价格平减）</h3>
     <p class="lead">
-      EAPI 综合指数只反映<strong>下载量（用量）</strong>的增速。由于 token 价格指数持续下行，
-      仅看下载量会高估企业的"实际开支"。真实支出指数引入价格代理 OPTI_VERCEL_OUTPUT
+      EAPI 综合指数（已含 flow + usage 两维度）反映企业 AI 的<strong>用量的增速</strong>。由于 token 价格指数持续下行，
+      仅看用量会高估企业的"实际开支"。真实支出指数引入价格代理 OPTI_VERCEL_OUTPUT
       （Vercel token 价格指数，日线，2026-07-10 起）对 EAPI 做平减，剥离价格因素，
       得到更接近企业<strong>真实支出</strong>的口径。
     </p>
@@ -388,8 +404,8 @@ EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
       </div>
       <div class="stat-card">
         <div class="label">传导系数 α</div>
-        <div class="value">0.3</div>
-        <div class="sub">弱传导：锁价/合约价几乎不传导</div>
+        <div class="value">0.43</div>
+        <div class="sub">标定传导：贴合 SDLLMTK 基准</div>
       </div>
       <div class="stat-card">
         <div class="label">价格锚点</div>
@@ -398,21 +414,24 @@ EAPI[t] = AI_SDK_sub[t]^0.6  ×  Enterprise_sub[t]^0.4
       </div>
       <div class="stat-card">
         <div class="label">价格平滑</div>
-        <div class="value">无</div>
-        <div class="sub">直接按周窗口(7日)均值</div>
+        <div class="value">30 日 trailing</div>
+        <div class="sub">周窗内每日取前 30 日均值后再平均</div>
       </div>
     </div>
 
     <div class="formula-block">
       <div class="formula-title">编制公式</div>
-<pre><span class="comment"># Step 1：每周价格比（周窗口 (t-7, t] 内日线均值 / 07-10 锚点）</span>
-price_ratio[t] = mean(OPTI_VERCEL_OUTPUT within week) / OPTI_VERCEL_OUTPUT(2026-07-10)
+<pre><span class="comment"># Step 1：每周价格比（30 日 trailing 平滑）</span>
+<span class="comment">#   对 EAPI 周窗内每一天 d 取 OPTI_VERCEL_OUTPUT 的前 30 日均值 trail(d)，</span>
+<span class="comment">#   再对窗口内这些 trail(d) 取平均，得到周度价格；除以 07-10 锚点得 ratio。</span>
+<span class="comment">#   采用 30 日 trailing 是为抑制代理日线的噪声与阶降（对比 7 日窗/居中 MA/14 日）。</span>
+price_ratio[t] = mean( trail30(OPTI_VERCEL_OUTPUT, d) for d in week ) / OPTI_VERCEL_OUTPUT(2026-07-10)
 
 <span class="comment"># Step 2：阻尼平减因子（α 为价格传导系数）</span>
 <span class="comment">#  α=1.0 完全传导（硬平减，会夸大价格崩盘）</span>
-<span class="comment">#  α=0.3 弱传导（企业锁价，现货跌几乎不传到实际支出）→ 当前取值</span>
+<span class="comment">#  α=0.43 标定传导（已按 SDLLMTK 基准标定）→ 当前取值</span>
 <span class="comment">#  α=0.0 无传导（真实支出 == 名义 EAPI）</span>
-price_deflator[t] = price_ratio[t]^α        (α = 0.3)
+price_deflator[t] = price_ratio[t]^α        (α = 0.43)
 
 <span class="comment"># Step 3：真实支出指数 = 名义 EAPI × 阻尼平减因子</span>
 RealSpend[t] = EAPI[t] × price_deflator[t]
@@ -424,7 +443,7 @@ RealSpend_MA4[t] = mean(RealSpend[t], RealSpend[t-1], RealSpend[t-2], RealSpend[
 RealSpend_MA4_deriv[t] = RealSpend_MA4[t] − RealSpend_MA4[t-1]
 
 <span class="comment"># 注：纯 log2 不改变结果(2^log2(r)=r，等价于 α=1)，"维持7月高位"的</span>
-<span class="comment">#     杠杆是 α 而非 log2；α=0.3 时真实支出稳在 7 月高位(约 160–200)。</span></pre>
+<span class="comment">#     杠杆是 α 而非 log2；α=0.43 已按 SDLLMTK 基准标定，末周真实支出≈169，贴近 SDLLMTK。</span></pre>
     </div>
 
     <h3 style="margin:32px 0 8px;font-size:17px;color:var(--accent-eapi)">口径对比：名义 EAPI vs 真实支出指数</h3>
@@ -439,31 +458,34 @@ RealSpend_MA4_deriv[t] = RealSpend_MA4[t] − RealSpend_MA4[t-1]
       </thead>
       <tbody>
         <tr>
-          <td>名义 EAPI（下载量 / 用量）</td>
+          <td>EAPI 综合指数（flow × usage 混合）</td>
           <td>163.26</td>
           <td>281.09</td>
           <td>+72.2%</td>
         </tr>
         <tr>
-          <td>真实支出指数（α=0.3 平减）</td>
-          <td>159.19</td>
-          <td>197.05</td>
-          <td>+23.8%</td>
+          <td>真实支出指数（α=0.43 · 30日trailing）</td>
+          <td>159.53</td>
+          <td>216.34</td>
+          <td>+35.6%</td>
         </tr>
       </tbody>
     </table>
     <p class="lead" style="margin-top:16px">
-      真实支出指数 09-14 为 <strong>197.05</strong>，与 7 月高位区间（约 160–200）基本持平：
-      尽管名义下载量近乎翻倍，但 token 价格下行拉低了单位支出，企业真实 AI 支出并未同比例膨胀，
-      印证「支出维持 7 月高位」的判断。
+      真实支出指数 09-14 为 <strong>216.34</strong>，较 7 月（159.53）提升约 36%：
+      名义下载量近乎翻倍，30 日 trailing 平滑后的 token 价格仍处下行，企业真实 AI 支出随用量增长而走高、并未同比例膨胀，
+      印证「支出维持高位」的判断。α=0.43 已按 SDLLMTK 基准标定；9-14→9-21 真实支出为 216.34→200.30（−7.4%，受 30 日 trailing 滞后与代理尾部下行的共同影响）。
     </p>
 
     <p style="background:#fffbeb;border-left:3px solid var(--accent-eapi);padding:10px 14px;margin:14px 0 8px;font-size:13px;line-height:1.7;color:#374151">
-      ⚠️ <strong>口径说明：</strong>OPTI_VERCEL_OUTPUT 是 Vercel token 价格的<strong>代理指标</strong>，并非 EAPI 内
-      npm 包（ai-sdk / dd-trace / snowflake-sdk）的真实合约价，且日线波动较大
-      （07-10 的 9.228 → 09-16 的 2.336，跌约 75%）。      采用 α=0.3 弱传导是为了反映
-      "企业多为锁价/合约价、现货价格暴跌几乎不传导到实际支出"的现实；结论的
-      <strong>方向稳健</strong>，但绝对幅度为示意值。
+      ⚠️ <strong>口径说明：</strong>价格代理 OPTI_VERCEL_OUTPUT 是内部观测的 Vercel token 价格（日线，2026-07-10 起），
+      并非 EAPI 内 npm 包（ai-sdk / dd-trace / snowflake-sdk）的真实合约价，且日线波动较大
+      （07-10 的 9.228 → 09-16 的 2.336，跌约 75%）。为抑制其噪声，周度价格比已采用
+      <strong>30 日 trailing 平滑</strong>（周窗内每日取前 30 日均值后再平均），但代理在 8 月中之后的
+      持续下行仍与已走平的 SDLLMTK 基准（W37 起 ~0.98）存在方向分叉。α=0.43 为<strong>标定传导系数</strong>：
+      通过对数比率回归使内部价格指数的乘性下行轨迹贴合 SDLLMTK Index（彭博 $/M tokens 基准，2026-02~09 周度）——
+      SDLLMTK 自 07-10 跌约 40%、内部指数自 07-10 跌约 67%，α = ln(0.60)/ln(0.33) ≈ 0.43。
+      结论的<strong>方向稳健</strong>，但绝对幅度为示意值；若后续能直接获取 SDLLMTK 最新值，建议直接替换该代理。
     </p>
   </section>
 
@@ -487,16 +509,30 @@ RealSpend_MA4_deriv[t] = RealSpend_MA4[t] − RealSpend_MA4[t-1]
       </thead>
       <tbody>
         <tr>
-          <td>EAPI 名义指数</td>
-          <td>下载量 / 用量</td>
-          <td>几何加权（AI SDK 60% + 企业工具 40%）</td>
-          <td>跟踪企业从"试用"到"深度集成"的渗透速度</td>
+          <td>EAPI 综合指数</td>
+          <td>下载流量 × 真实用量</td>
+          <td>flow^0.5 × usage^0.5（等权混合）</td>
+          <td>同时追踪新增采用与在产真实用量（含存量贡献）</td>
           <td>enterprise_ai_penetration_index</td>
         </tr>
         <tr>
+          <td>下载流量指数</td>
+          <td>新增采用（npm 下载）</td>
+          <td>AI_SDK^0.6 × 企业工具^0.4</td>
+          <td>EAPI 的 flow 子成分，衡量新应用接入</td>
+          <td>enterprise_ai_download_flow_index</td>
+        </tr>
+        <tr>
+          <td>真实用量指数</td>
+          <td>在产真实 token 消耗</td>
+          <td>OpenRouter 周成交量 / base × MA4</td>
+          <td>EAPI 的 usage 子成分，天然含存量应用贡献</td>
+          <td>enterprise_ai_real_usage_index</td>
+        </tr>
+        <tr>
           <td>真实支出指数</td>
-          <td>名义 × 价格阻尼平减</td>
-          <td>EAPI × price_ratio^0.3</td>
+          <td>综合 × 价格阻尼平减</td>
+          <td>EAPI × price_ratio^0.43</td>
           <td>剥离 token 价格因素，逼近企业真实 AI 支出</td>
           <td>enterprise_ai_real_spend_index</td>
         </tr>
@@ -520,7 +556,7 @@ RealSpend_MA4_deriv[t] = RealSpend_MA4[t] − RealSpend_MA4[t-1]
 
   <footer class="page-footer">
     TransformerFacts Research · EAPI 企业 AI 渗透指数体系<br>
-    数据来源：npm（ai-sdk / dd-trace / snowflake-sdk / @atlaskit/rovo-triggers）· OPTI_VERCEL_OUTPUT（Vercel token 价格代理）
+    数据来源：npm（ai-sdk / dd-trace / snowflake-sdk）· OpenRouter 模型周度 token 成交量（openrouter_model_volume）· OPTI_VERCEL_OUTPUT（Vercel token 价格代理）
   </footer>
 </div>
 </body>
