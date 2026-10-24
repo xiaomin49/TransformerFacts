@@ -121,6 +121,11 @@
       display: grid;
       gap: 12px;
     }
+    .ri-empty {
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 8px 2px;
+    }
     .report-item {
       display: flex;
       align-items: center;
@@ -237,19 +242,7 @@
         <h2>财报解读</h2>
         <span class="tag">Earnings</span>
       </div>
-      <div class="report-list">
-        <a class="report-item" href="reports/earnings/META_FY2026Q3_Analysis_2026-10-23.md">
-          <div class="ri-main">
-            <div class="ri-date">2026-10-23</div>
-            <span class="ri-type">MD</span>
-            <div>
-              <div class="ri-title">META FY2026 Q3 财报解读</div>
-              <div class="ri-meta">reports/earnings/META_FY2026Q3_Analysis_2026-10-23.md</div>
-            </div>
-          </div>
-          <div class="ri-arrow">→</div>
-        </a>
-      </div>
+      <div class="report-list" id="earnings-list"></div>
     </section>
 
     <!-- 历史报告 -->
@@ -258,99 +251,7 @@
         <h2>AI 应用生态周报</h2>
         <span class="tag">Reports</span>
       </div>
-      <div class="report-list">
-	  <a class="report-item" href="reports/ai-weekly-2026-10-19.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-10-19</div>
-          <span class="ri-new">最新</span>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-10-19.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-	  <a class="report-item" href="reports/ai-weekly-2026-10-12.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-10-12</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-10-12.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-	  <a class="report-item" href="reports/ai-weekly-2026-10-05.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-10-05</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-10-05.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-	  <a class="report-item" href="reports/ai-weekly-2026-09-28.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-09-28</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-09-28.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-09-21.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-09-21</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-09-21.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-09-14.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-09-14</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-09-14.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-09-07.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-09-07</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-09-07.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-08-31.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-08-31</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-08-31.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      <a class="report-item" href="reports/ai-weekly-2026-08-24.html">
-        <div class="ri-main">
-          <div class="ri-date">2026-08-24</div>
-          <div>
-            <div class="ri-title">AI 应用生态周报</div>
-            <div class="ri-meta">reports/ai-weekly-2026-08-24.html</div>
-          </div>
-        </div>
-        <div class="ri-arrow">→</div>
-      </a>
-      </div>
+      <div class="report-list" id="weekly-list"></div>
     </section>
 
   </div>
@@ -370,5 +271,54 @@
   </footer>
 
 </div>
+
+<!-- 自动加载：数据由 build_reports_index.js 生成 -->
+<script src="reports-data.js"></script>
+<script>
+  (function () {
+    var data = window.TF_DATA || { weekly: [], earnings: [] };
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function render(container, items, isWeekly) {
+      if (!container) return;
+      if (!items.length) {
+        container.innerHTML = '<div class="ri-empty">暂无可展示的报告。</div>';
+        return;
+      }
+      var html = '';
+      items.forEach(function (it, i) {
+        var badge = '';
+        if (isWeekly && i === 0) {
+          badge = '<span class="ri-new">最新</span>';
+        } else if (it.type) {
+          badge = '<span class="ri-type">' + esc(it.type) + '</span>';
+        }
+        html +=
+          '<a class="report-item" href="' + esc(it.file) + '">' +
+            '<div class="ri-main">' +
+              '<div class="ri-date">' + esc(it.date) + '</div>' +
+              badge +
+              '<div>' +
+                '<div class="ri-title">' + esc(it.title) + '</div>' +
+                '<div class="ri-meta">' + esc(it.file) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ri-arrow">→</div>' +
+          '</a>';
+      });
+      container.innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      render(document.getElementById('earnings-list'), data.earnings, false);
+      render(document.getElementById('weekly-list'), data.weekly, true);
+    });
+  })();
+</script>
 </body>
 </html>
