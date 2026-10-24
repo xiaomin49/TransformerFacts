@@ -51,8 +51,8 @@ log = logging.getLogger("sec_filings")
 # CIK 格式：10 位数字，不足前面补 0
 COMPANIES: dict[str, dict] = {
     # "MSFT": { "name": "Microsoft Corp", "cik": "0000789019"},
-	"SHOP": { "name": "Shopify Inc.", "cik": "0001594805"},
-   	# "META": { "name": "META Platforms, Inc.", "cik": "0001326801"},
+	# "SHOP": { "name": "Shopify Inc.", "cik": "0001594805"},
+   	"META": { "name": "META Platforms, Inc.", "cik": "0001326801"},
 	# "AMZN": { "name": "AMAZON COM,Inc.", "cik": "0001018724"},
 	# "MCD": { "name": "MCDONALDS CORP", "cik": "0000063908"},
 	# "ORCL": { "name": "oracle corp", "cik": "0001341439"},

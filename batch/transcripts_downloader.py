@@ -89,12 +89,12 @@ _env = load_env()
 # Ticker -> 公司名
 TICKERS: dict[str, str] = {
     # "ORCL": "Oracle Corp",
-    "SHOP": "Shopify Inc.",
+    # "SHOP": "Shopify Inc.",
     # "SNOW": "Snowflake Inc.",
     #"MSFT": "Microsoft Corp",
     #"AMZN": "Amazon.com Inc.",
     #"GOOG": "Alphabet Inc.",
-    #"META": "META Platforms, Inc.",
+    "META": "META Platforms, Inc.",
     #"AAPL": "Apple Inc",
     #"NVDA": "NVIDIA Corp",
     #"CRM":  "Salesforce, Inc.",

@@ -104,6 +104,18 @@
       padding: 4px 12px;
     }
 
+    /* ── 两列并列布局 ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .two-col > .section { margin-bottom: 0; }
+    @media (max-width: 860px) {
+      .two-col { grid-template-columns: 1fr; gap: 48px; }
+    }
+
     /* ── 历史报告列表 ── */
     .report-list {
       display: grid;
@@ -143,6 +155,17 @@
       font-weight: 700;
       color: #fff;
       background: var(--accent);
+      border-radius: 100px;
+      padding: 2px 9px;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .report-item .ri-type {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 100px;
       padding: 2px 9px;
       letter-spacing: 0.05em;
@@ -205,13 +228,37 @@
     <a class="back-link" href="https://github.com/xiaomin49/TransformerFacts/" target="_blank" rel="noopener">← 返回 GitHub 仓库</a>
   </header>
 
-  <!-- 历史报告 -->
-  <section class="section" id="archive">
-    <div class="section-head">
-      <h2>AI 应用生态周报</h2>
-      <span class="tag">Reports</span>
-    </div>
-    <div class="report-list">
+  <!-- 财报解读 + 周报 并列 -->
+  <div class="two-col">
+
+    <!-- 财报解读 -->
+    <section class="section" id="earnings">
+      <div class="section-head">
+        <h2>财报解读</h2>
+        <span class="tag">Earnings</span>
+      </div>
+      <div class="report-list">
+        <a class="report-item" href="reports/earnings/META_FY2026Q3_Analysis_2026-10-23.md">
+          <div class="ri-main">
+            <div class="ri-date">2026-10-23</div>
+            <span class="ri-type">MD</span>
+            <div>
+              <div class="ri-title">META FY2026 Q3 财报解读</div>
+              <div class="ri-meta">reports/earnings/META_FY2026Q3_Analysis_2026-10-23.md</div>
+            </div>
+          </div>
+          <div class="ri-arrow">→</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 历史报告 -->
+    <section class="section" id="archive">
+      <div class="section-head">
+        <h2>AI 应用生态周报</h2>
+        <span class="tag">Reports</span>
+      </div>
+      <div class="report-list">
 	  <a class="report-item" href="reports/ai-weekly-2026-10-19.html">
         <div class="ri-main">
           <div class="ri-date">2026-10-19</div>
@@ -303,8 +350,10 @@
         </div>
         <div class="ri-arrow">→</div>
       </a>
-    </div>
-  </section>
+      </div>
+    </section>
+
+  </div>
 
   <!-- 页脚 -->
   <footer class="site-footer">
