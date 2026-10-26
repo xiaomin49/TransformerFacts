@@ -2,6 +2,11 @@
 window.TF_DATA = {
   "weekly": [
     {
+      "date": "2026-10-26",
+      "title": "AI 应用生态周报 2026-10-26",
+      "file": "reports/ai-weekly-2026-10-26.html"
+    },
+    {
       "date": "2026-10-19",
       "title": "AI 应用生态周报 2026-10-19",
       "file": "reports/ai-weekly-2026-10-19.html"

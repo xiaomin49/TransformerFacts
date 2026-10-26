@@ -50,12 +50,12 @@ log = logging.getLogger("sec_filings")
 # ── 公司配置 ─────────────────────────────────────────────────────────────────
 # CIK 格式：10 位数字，不足前面补 0
 COMPANIES: dict[str, dict] = {
-    # "MSFT": { "name": "Microsoft Corp", "cik": "0000789019"},
+    "MSFT": { "name": "Microsoft Corp", "cik": "0000789019"},
 	# "SHOP": { "name": "Shopify Inc.", "cik": "0001594805"},
    	"META": { "name": "META Platforms, Inc.", "cik": "0001326801"},
-	# "AMZN": { "name": "AMAZON COM,Inc.", "cik": "0001018724"},
+	"AMZN": { "name": "AMAZON COM,Inc.", "cik": "0001018724"},
 	# "MCD": { "name": "MCDONALDS CORP", "cik": "0000063908"},
-	# "ORCL": { "name": "oracle corp", "cik": "0001341439"},
+	"ORCL": { "name": "Oracle Corp", "cik": "0001341439"},
     # "PLTR": { "name": "Palantir Technologies Inc.", "cik": "0001321655"},
     # "AAPL": {"name": "Apple Inc", "cik": "0000320193"},
 	# "NBIS": {"name": "Nebius Group N.V.", "cik": "0001513845"},
@@ -64,6 +64,7 @@ COMPANIES: dict[str, dict] = {
 	# "DDOG": {"name": "Datadog, Inc.", "cik": "0001561550"},
 	# "TEAM": {"name": "Atlassian Corp", "cik": "0001650372"},
 	# "CRM": {"name": "Salesforce, Inc. ", "cik": "0001108524"},
+	"GOOG": { "name": "Alphabet Inc.", "cik": "0001652044"},
 }
 
 # ── 全局配置 ─────────────────────────────────────────────────────────────────
