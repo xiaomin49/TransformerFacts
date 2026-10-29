@@ -59,27 +59,9 @@ window.TF_DATA = {
   ],
   "earnings": [
     {
-      "date": "2026-10-24",
-      "title": "AMZN FY2026Q2 财报解读（截至 2026-06-30）",
-      "file": "reports/earnings/AMZN_FY2026Q2_Analysis_2026-10-24.md",
-      "type": "MD"
-    },
-    {
-      "date": "2026-10-24",
-      "title": "GOOG FY2026Q2 财报解读（截至 2026-06-30）",
-      "file": "reports/earnings/GOOG_FY2026Q2_Analysis_2026-10-24.md",
-      "type": "MD"
-    },
-    {
-      "date": "2026-10-24",
-      "title": "MSFT FY2026 Q4 财报解读（截至 2026-06-30）",
-      "file": "reports/earnings/MSFT_FY2026Q4_Analysis_2026-10-24.md",
-      "type": "MD"
-    },
-    {
-      "date": "2026-10-24",
-      "title": "ORCL FY2027Q1 财报解读（截至 2026-08-31）",
-      "file": "reports/earnings/ORCL_FY2027Q1_Analysis_2026-10-24.md",
+      "date": "2026-10-29",
+      "title": "Microsoft（MSFT）FY2027 第一季度财报解读",
+      "file": "reports/earnings/MSFT_FY2027Q1_Analysis_2026-10-29.md",
       "type": "MD"
     },
     {
