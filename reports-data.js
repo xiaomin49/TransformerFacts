@@ -59,6 +59,18 @@ window.TF_DATA = {
   ],
   "earnings": [
     {
+      "date": "2026-10-31",
+      "title": "AMZN FY2026Q3 财报解读（截至 2026-09-30）",
+      "file": "reports/earnings/AMZN_FY2026Q3_Analysis_2026-10-31.md",
+      "type": "MD"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Alphabet (GOOG) 2026Q3 财报解读",
+      "file": "reports/earnings/GOOG_FY2026Q3_Analysis_2026-10-29.md",
+      "type": "MD"
+    },
+    {
       "date": "2026-10-29",
       "title": "Microsoft（MSFT）FY2027 第一季度财报解读",
       "file": "reports/earnings/MSFT_FY2027Q1_Analysis_2026-10-29.md",
