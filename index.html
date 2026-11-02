@@ -212,7 +212,47 @@
       color: var(--text-muted);
     }
 
+    /* ── Substack 醒目横幅 ── */
+    .substack-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 26px 0 40px;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08));
+      border: 1px solid rgba(139,92,246,0.30);
+      border-radius: var(--radius);
+    }
+    .substack-banner .sb-text {
+      font-size: 14.5px;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .substack-banner .sb-text a {
+      color: var(--accent-2);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .substack-banner .sb-text a:hover { text-decoration: underline; }
+    .substack-banner .sb-btn {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      padding: 11px 22px;
+      border-radius: 100px;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .substack-banner .sb-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
     @media (max-width: 640px) {
+      .substack-banner { flex-direction: column; align-items: flex-start; }
+      .substack-banner .sb-btn { width: 100%; text-align: center; }
       .site-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .site-header .back-link { margin-left: 0; }
       iframe.report-embed { height: 1100px; }
@@ -233,13 +273,19 @@
     <a class="back-link" href="https://github.com/xiaomin49/TransformerFacts/" target="_blank" rel="noopener">← 返回 GitHub 仓库</a>
   </header>
 
+  <!-- Substack 醒目横幅 -->
+  <div class="substack-banner">
+    <div class="sb-text">更多深度文章，请访问：<br><a href="https://transformerfacts.substack.com/" target="_blank" rel="noopener">https://transformerfacts.substack.com/</a></div>
+    <a class="sb-btn" href="https://transformerfacts.substack.com/" target="_blank" rel="noopener">立即前往 →</a>
+  </div>
+
   <!-- 财报解读 + 周报 并列 -->
   <div class="two-col">
 
     <!-- 财报解读 -->
     <section class="section" id="earnings">
       <div class="section-head">
-        <h2>财报解读</h2>
+        <h2>财报解读（Agent自动生成）</h2>
         <span class="tag">Earnings</span>
       </div>
       <div class="report-list" id="earnings-list"></div>
@@ -248,7 +294,7 @@
     <!-- 历史报告 -->
     <section class="section" id="archive">
       <div class="section-head">
-        <h2>AI 应用生态周报</h2>
+        <h2>AI 应用生态周报（Agent自动生成）</h2>
         <span class="tag">Reports</span>
       </div>
       <div class="report-list" id="weekly-list"></div>
