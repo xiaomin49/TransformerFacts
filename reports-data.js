@@ -64,6 +64,12 @@ window.TF_DATA = {
   ],
   "earnings": [
     {
+      "date": "2026-11-05",
+      "title": "Datadog (DDOG) FY2026 Q3 财报解读",
+      "file": "reports/earnings/DDOG_FY2026Q3_Analysis_2026-11-05.md",
+      "type": "MD"
+    },
+    {
       "date": "2026-11-03",
       "title": "Palantir (PLTR) FY2026 Q3 财报解读",
       "file": "reports/earnings/PLTR_FY2026Q3_Analysis_2026-11-03.md",
