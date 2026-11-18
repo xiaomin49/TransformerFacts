@@ -2,6 +2,11 @@
 window.TF_DATA = {
   "weekly": [
     {
+      "date": "2026-11-16",
+      "title": "AI 应用生态周报 2026-11-16",
+      "file": "reports/ai-weekly-2026-11-16.html"
+    },
+    {
       "date": "2026-11-09",
       "title": "AI 应用生态周报 2026-11-09",
       "file": "reports/ai-weekly-2026-11-09.html"
@@ -70,7 +75,7 @@ window.TF_DATA = {
   "earnings": [
     {
       "date": "2026-11-11",
-      "title": "CoreWeave（CRWV）FY2026 Q3 财报解读：收入环比增 10 亿美元、提前一季达成双位数调整后经营利润率",
+      "title": "CRWV_FY2026Q3_Analysis_2026-11-11",
       "file": "reports/earnings/CRWV_FY2026Q3_Analysis_2026-11-11.md",
       "type": "MD"
     },
